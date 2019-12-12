@@ -1,0 +1,25 @@
+/* .app-header{
+  background-color: #025669 !important;
+  color: white;
+} */
+/* .app-header .app-header__content .header-menu .nav-link{
+  color: #06c6e1 !important;
+} */
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after{
+  background-color: #308446;
+}
+.hamburger.is-active .hamburger-inner, .hamburger.is-active .hamburger-inner::before, .hamburger.is-active .hamburger-inner::after {
+  background-color: #308446;
+}
+textarea{
+  resize: none;
+}
+/* .app-theme-white .app-sidebar {
+  background-color: #48b2c5;
+}
+.app-sidebar__heading {
+  color: #06c6e1;
+}
+.vertical-nav-menu li a {
+  color: white;
+} */
