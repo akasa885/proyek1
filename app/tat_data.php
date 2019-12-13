@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class asessor extends Model
+class tat_data extends Model
 {
-    protected $table = "asessor";
+    protected $table = "tat_data";
 }

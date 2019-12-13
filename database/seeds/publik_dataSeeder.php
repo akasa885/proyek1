@@ -1,5 +1,6 @@
 <?php
 
+use App\publik_data;
 use Illuminate\Database\Seeder;
 
 class publik_dataSeeder extends Seeder
@@ -11,6 +12,6 @@ class publik_dataSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(publik_data::class, 10)->create();
     }
 }

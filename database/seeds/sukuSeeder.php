@@ -1,5 +1,6 @@
 <?php
 
+use App\suku;
 use Illuminate\Database\Seeder;
 
 class sukuSeeder extends Seeder
@@ -11,6 +12,6 @@ class sukuSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(suku::class, 10)->create();
     }
 }

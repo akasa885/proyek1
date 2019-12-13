@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 $factory->define(akun::class, function (Faker $faker) {
     return [
         'username' => Str::random(10),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'password' => $faker->sha256, // password
         'pas_back' => Str::random(20),
         'integritas' => Str::random(20),
         'status' => Str::random(20),
