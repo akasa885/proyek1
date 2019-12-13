@@ -243,14 +243,12 @@ $(document).ready(function() {
           dataType:'text',
           success: function (data) {
               $('#view_result').html(data);
-              // alert(data);
           }
 
         });
       }else {
         $('#view_result').html('');
         $('#view_result').html(txt_html);
-        // rehab(selectedview);
       }
     }else{
       if (txt != '') {
@@ -272,7 +270,6 @@ $(document).ready(function() {
       }else {
         $('#view_result').html('');
         $('#view_result').html(txt_html);
-        // rehab(selectedview);
       }
     }
   });
@@ -298,16 +295,20 @@ $(document).ready(function() {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     });
-    $.ajax({
-      url: '/dpanel/link/store',
-      method: 'post',
-      data: {links: all},
-      cache: false,
-      success: function (data) {
-          alert('Berhasil di simpan');
-          location.reload();
-      }
-    });
+    if (ig == '' || fb == '' || ytb == '' || web == '') {
+      $('#alert_link').html('Harap Mengisi Kolom');
+    }else{
+      $.ajax({
+        url: '/dpanel/link/store',
+        method: 'post',
+        data: {links: all},
+        cache: false,
+        success: function (data) {
+            alert('Berhasil di simpan');
+            location.reload();
+        }
+      });
+    }
   });
       // $('.dropdown-menu #view_skhpn').on('click',function () {
       //   var kode = $(this).closest('.dropdown-menu').children("input:hidden").attr('id');
@@ -349,7 +350,14 @@ $(document).ready(function() {
       });
 
       $('#cari_for_form').on('click',function () {
+        var selectedview = $('#pilihan_tampil').children("option:selected").val();
+        if (selectedview == 'tat') {
+          selectedview = '1';
+        }else{
+          selectedview = '2';
+        }
         var id = $('#reg_num').val();
+        var target = $('#cari_for_form').attr('target');
         var start = $('#start_tgl').val();
         var last = $('#last_tgl').val();
         var result = '';
@@ -359,44 +367,88 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         });
-        $.ajax({
-          url: '/dpanel/skhpn/search',
-          method: 'post',
-          cache: false,
-          type: 'json',
-          data: {id:id,tgl_start:start,tgl_last:last},
-          success: function (data) {
-            if (data.hasil) {
-              $('#view_result').html('');
-              jQuery.each(data.hasil, function(key, value){
-                              result += '<tr>';
-                              result += '<td>'+no+'</td>';
-                              result += '<td>'+value.kode_registrasi+'</td>';
-                              result += '<td>'+value.nama_lengkap+'</td>';
-                              result += '<td>'+value.tanggal_lahir+'</td>';
-                              result += '<td>'+value.gender+'</td>';
-                              result += '<td>'+value.pekerjaan+'</td>';
-                              if (value.status == '1') {
-                                result += '<td>Registered</td>';
-                              }else if (value.status == '2') {
-                                result += '<td>Medical Checked</td>';
-                              }
-                              result += '<td>'+value.created_at+'</td>';
-                              result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
-                              result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_registrasi+'">';
-                              result += '<button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_skhpn('+'\''+value.kode_registrasi+'\''+')">Edit</button>';
-                              if (value.status == '1') {
-                                result += '<button type="button" id="cek_medis" tabindex="0" class="dropdown-item" onclick="medical_check('+'\''+value.kode_registrasi+'\''+')">Medical Test</button>';
-                              }else if (value.status == '2') {
-                                result += '<button type="button" id="print_pdf_skhpn" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
-                              }
-                              result += '  <button type="button" tabindex="0" class="dropdown-item">Delete</button>';
-                              no ++;
-                            });
+        if (target == '3') {
+          $.ajax({
+            url: '/dpanel/rehab/search/'+selectedview,
+            method: 'post',
+            cache: false,
+            type: 'json',
+            data: {id:id,tgl_start:start,tgl_last:last},
+            success: function (data) {
+              if(data.hasil){
+                $('#view_result').html('');
+                if (selectedview == '1') {
+                  jQuery.each(data.hasil,function (key, value) {
+                    result += '<tr>';
+                    result += '<td>'+no+'</td>';
+                    result += '<td>'+value.kode_registrasi+'</td>';
+                    result += '<td>'+value.instansi_pengaju+'</td>';
+                    result += '<td>'+value.nama_penyidik+'</td>';
+                    result += '<td>'+value.nama_tersangka+'</td>';
+                    result += '<td>'+value.created_at+'</td>';
+                    result += '<td>';
+                    result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button><button type="button" tabindex="0" class="dropdown-item">Delete</button></div>';
+                    result += '</td>';
+                    no++;
+                  });
+                }else {
+                  jQuery.each(data.hasil,function (key, value) {
+                    result += '<tr>';
+                    result += '<td>'+no+'</td>';
+                    result += '<td>'+value.kode_registrasi+'</td>';
+                    result += '<td>'+value.nik_ktp+'</td>';
+                    result += '<td>'+value.nama_ibu+'</td>';
+                    result += '<td>'+value.nama_lengkap+'</td>';
+                    result += '<td>'+value.created_at+'</td>';
+                    result += '<td>';
+                    result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button><button type="button" tabindex="0" class="dropdown-item">Delete</button></div>';
+                    result += '</td>';
+                    no++;
+                  });
+                }
+              }
             }
-            jQuery('#view_result').append(result);
-          }
-        });
+          });
+        }else if (target == '4') {
+          $.ajax({
+            url: '/dpanel/skhpn/search',
+            method: 'post',
+            cache: false,
+            type: 'json',
+            data: {id:id,tgl_start:start,tgl_last:last},
+            success: function (data) {
+              if (data.hasil) {
+                $('#view_result').html('');
+                jQuery.each(data.hasil, function(key, value){
+                                result += '<tr>';
+                                result += '<td>'+no+'</td>';
+                                result += '<td>'+value.kode_registrasi+'</td>';
+                                result += '<td>'+value.nama_lengkap+'</td>';
+                                result += '<td>'+value.tanggal_lahir+'</td>';
+                                result += '<td>'+value.gender+'</td>';
+                                result += '<td>'+value.pekerjaan+'</td>';
+                                if (value.status == '1') {
+                                  result += '<td>Registered</td>';
+                                }else if (value.status == '2') {
+                                  result += '<td>Medical Checked</td>';
+                                }
+                                result += '<td>'+value.created_at+'</td>';
+                                result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
+                                result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_registrasi+'">';
+                                result += '<button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_skhpn('+'\''+value.kode_registrasi+'\''+')">Edit</button>';
+                                if (value.status == '1') {
+                                  result += '<button type="button" id="cek_medis" tabindex="0" class="dropdown-item" onclick="medical_check('+'\''+value.kode_registrasi+'\''+')">Medical Test</button>';
+                                }else if (value.status == '2') {
+                                  result += '<button type="button" id="print_pdf_skhpn" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
+                                }
+                                result += '  <button type="button" tabindex="0" class="dropdown-item">Delete</button>';
+                                no ++;
+                              });
+              }
+              jQuery('#view_result').append(result);
+            }
+          });
+        }
       });
 
       $('#logout_button').click(function () {
@@ -434,6 +486,18 @@ $(document).ready(function() {
 
 });
 
+function notSpaceFirst(e,val) {
+  var len = val.value.length;
+  if (len < 2) {
+    if (e.which == 32) {
+      $('#message').html('do not input space first!');
+      val.value = '';
+    }else{
+      $('#message').html('');
+      $('#alert_link').html('');
+    }
+  }
+}
 function countChar(val) {
         var len = val.value.length;
         if (len > 500) {

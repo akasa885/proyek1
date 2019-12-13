@@ -31,23 +31,23 @@ $dom_html = "<button class=\"btn btn-primary\" type=\"button\" disabled>
           <div class="col-md-5">
             <div class="form-group">
               <label for="ig">Instagram</label>
-              <input id="ig_link" class="form-control" type="text" name="instagram_link" value="{{ $row->instagram }}">
+              <input id="ig_link" class="form-control" type="text" name="instagram_link" onkeyup="notSpaceFirst(event,this)" value="{{ $row->instagram }}">
             </div>
             <div class="form-group">
               <label for="ytb">Youtube</label>
-              <input id="ytb_link" class="form-control" type="text" name="youtube_link" value="{{ $row->youtube }}">
+              <input id="ytb_link" class="form-control" type="text" name="youtube_link" onkeyup="notSpaceFirst(event,this)" value="{{ $row->youtube }}">
             </div>
-            <span id="message"></span><br />
+            <span id="message" style="color:red;"></span><br />
             <br />
           </div>
           <div class="col-md-5">
             <div class="form-group">
               <label for="fb">Facebook</label>
-              <input id="fb_link" class="form-control" type="text" name="facebook_link" value="{{ $row->facebook }}">
+              <input id="fb_link" class="form-control" type="text" name="facebook_link" onkeyup="notSpaceFirst(event,this)" value="{{ $row->facebook }}">
             </div>
             <div class="form-group">
               <label for="linked_web">Linked Web</label>
-              <input id="web_link" class="form-control" type="text" name="linked_web_link" value="{{ $row->linked_link }}">
+              <input id="web_link" class="form-control" type="text" name="linked_web_link" onkeyup="notSpaceFirst(event,this)" value="{{ $row->linked_link }}">
             </div>
           </div>
           @endforeach
@@ -57,6 +57,7 @@ $dom_html = "<button class=\"btn btn-primary\" type=\"button\" disabled>
             <div id="btn-respon">
               <button type="button" name="button" id="link_save" class="btn btn-primary" style="width: 100px;"><span role="status" aria-hidden="true">Simpan</span>
               </button>
+              <span id="alert_link" style="color:red;"></span>
             </div>
           </div>
         </div>

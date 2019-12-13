@@ -23,3 +23,6 @@ textarea{
 .vertical-nav-menu li a {
   color: white;
 } */
+.in_alert{
+  border: 2px solid red;
+}
