@@ -164,20 +164,13 @@ class Admin_mainController extends Controller
       $fb = $link[1];
       $yutub = $link[2];
       $web = $link[3];
-      $messages = [
-      'required' => ':attribute harap diisi',
-      'min' => ':attribute harus diisi minimal :min karakter',
-      'max' => ':attribute harus diisi maksimal :max karakter',
-      'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
-      'numeric' => ':attribute harap menginputkan nomor',
-      ];
-          $get = sublink::find(1);
-          $get->instagram = $ig;
-          $get->facebook = $fb;
-          $get->youtube = $yutub;
-          $get->linked_link = $web;
-          $get->save();
-          return "added";
+      $get = sublink::find(1);
+      $get->instagram = $ig;
+      $get->facebook = $fb;
+      $get->youtube = $yutub;
+      $get->linked_link = $web;
+      $get->save();
+      return "added";
     }
     function waktupukul()
     {
@@ -335,6 +328,20 @@ class Admin_mainController extends Controller
       $data = skhpn::whereBetween(DB::raw('substr(created_at,1,10)'),[$start,$last])->get();
       // print_r($data);
       // echo $last;
+      return response()->json(['hasil'=>$data]);
+    }
+
+    function rehabSearch($type ,Request $req)
+    {
+      $start = explode('-',$req->tgl_start);
+      $start = $start[2].'-'.$start[1].'-'.$start[0];
+      $last = explode('-',$req->tgl_last);
+      $last = $last[2].'-'.$last[1].'-'.$last[0];
+      if ($type == '1') {
+        $data = rehab_tat::whereBetween(DB::raw('substr(created_at,1,10)'),[$start,$last])->get();
+      }else {
+        $data = rehab_publik::whereBetween(DB::raw('substr(created_at,1,10)'),[$start,$last])->get();
+      }
       return response()->json(['hasil'=>$data]);
     }
 

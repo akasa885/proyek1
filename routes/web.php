@@ -60,6 +60,7 @@ Route::get('/dpanel/form/suku','Admin_mainController@sukulist');
 // Route::get('/dpanel/rehab/data/publik','Admin_mainController@publiklist');
 Route::get('/dpanel/serv/rehab/report','Admin_mainController@rehablist');
 Route::get('/dpanel/serv/skhpn/report','Admin_mainController@skhpnlist');
+Route::post('/dpanel/rehab/search/{type}','Admin_mainController@rehabSearch');
 Route::post('/dpanel/skhpn/search','Admin_mainController@skhpnSearch');
 Route::post('/dpanel/serv/skhpn/report/reg_src','Admin_mainController@srcreg');
 Route::get('/dpanel/skhpn/klinik/{id}','Admin_mainController@klinikTampil');
