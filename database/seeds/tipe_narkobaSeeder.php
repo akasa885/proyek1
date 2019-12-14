@@ -1,5 +1,6 @@
 <?php
 
+use App\tipe_narkoba;
 use Illuminate\Database\Seeder;
 
 class tipe_narkobaSeeder extends Seeder
@@ -11,6 +12,6 @@ class tipe_narkobaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(tipe_narkoba::class, 10)->create();
     }
 }

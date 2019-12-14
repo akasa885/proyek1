@@ -1,5 +1,6 @@
 <?php
 
+use App\skhpn;
 use Illuminate\Database\Seeder;
 
 class skhpnSeeder extends Seeder
@@ -11,6 +12,6 @@ class skhpnSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(skhpn::class, 10)->create();
     }
 }
