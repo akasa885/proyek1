@@ -2,11 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\tat_data;
+use App\rehab_tat;
 use Faker\Generator as Faker;
 use illuminate\Support\Str;
 
-$factory->define(tat_data::class, function (Faker $faker) {
+$factory->define(rehab_tat::class, function (Faker $faker) {
     return [
         'kode_registrasi' => Str::random(10),
         'instansi_pengaju' => Str::random(20),

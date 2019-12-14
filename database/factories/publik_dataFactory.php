@@ -2,11 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\publik_data;
+use App\rehab_publik;
 use Faker\Generator as Faker;
 use Illuminate\support\Str;
 
-$factory->define(publik_data::class, function (Faker $faker) {
+$factory->define(rehab_publik::class, function (Faker $faker) {
     return [
         'kode_registrasi' => Str::random(10),
         'tgl_kedatangan' => $faker->dateTimeThismonth()->format('Y-m-d'),
