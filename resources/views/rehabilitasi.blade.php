@@ -3,6 +3,16 @@
 @section('judul','Permohonan Rehabilitasi')
 @section('head_halaman','Form Rehabilitasi')
 @section('konten')
+{{-- menampilkan error validasi --}}
+@if (count($errors) > 0)
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 <form id="tipe_R" class="form-inline" method="get">
   <!-- @if($form == "default") -->
   <!-- @endif -->

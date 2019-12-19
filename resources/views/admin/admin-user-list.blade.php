@@ -38,7 +38,9 @@
                   @elseif($row->status == 'Aktif')
                   <button type="button" tabindex="0" class="dropdown-item">Non Aktif</button>
                   @endif
-                  <button type="button" tabindex="0" class="dropdown-item">Delete</button>
+                  <div id="del_button_user">
+                    <button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="9">Delete</button>
+                  </div>
                 </div></td>
             </tr>
             <?php $num=$num + 1; ?>
