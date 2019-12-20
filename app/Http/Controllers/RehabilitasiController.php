@@ -58,7 +58,7 @@ class RehabilitasiController extends Controller
       'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
       'numeric' => ':attribute harap menginputkan nomor',
       ];
-      $this->validate($req,[
+      $req->validate([
         'instansi_pengaju' => 'required',
         'nama' => 'required',
         'nik' => 'required|numeric',
@@ -127,7 +127,7 @@ class RehabilitasiController extends Controller
       'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
       'numeric' => ':attribute harap menginputkan nomor',
       ];
-      $this->validate($req,[
+      $req->validate([
         'nama' => 'required',
         'NIK' => 'required|numeric',
         'address' => 'required',

@@ -285,7 +285,35 @@ class Admin_mainController extends Controller
         return redirect('/dpanel');
       }
     }
-
+    function tatView(Request $req)
+    {
+      $kode_reg = $req->kode;
+      $output='';
+      $data = rehab_tat::where('kode_registrasi','=',$kode_reg)->get();
+      foreach ($data as $row) {
+        $output .= '
+        <input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
+        <p>Instansi Pengaju
+        <input type="text" name="nama_instansi" id="full_name" required placeholder="Full Name" class="form-control" value="'.$row->instansi_pengaju.'"></p>
+        <p>Nama Tersangka
+        <input type="text" name="nama_tersangka" id="full_name" required placeholder="Full Name" class="form-control" value="'.$row->nama_tersangka.'"></p>
+        <p>NIK
+        <input type="text" name="nik" id="full_name" required placeholder="Full Name" class="form-control" value="'.$row->nik_ktp.'"></p>
+        <p>Alamat
+        <textarea name="address" class="form-control" rows="3">'.$row->alamat.'</textarea> </p>
+        <p>Tanggal penangkapan
+        <input type="text" name="tanggal_lahir" id="birth_date" readonly="true" required placeholder="Tanggal Lahir"  class="form-control" value="'.$row->tgl_penangkapan.'"> </p>
+        <p>Tanggal sprin penangkapan
+        <input type="text" name="tanggal_lahir" id="birth_date" readonly="true" required placeholder="Tanggal Lahir"  class="form-control" value="'.$row->tgl_sprin_tangkap.'"> </p>
+        <p>Tanggal sprin penahanan
+        <input type="text" name="tanggal_lahir" id="birth_date" readonly="true" required placeholder="Tanggal Lahir"  class="form-control" value="'.$row->tgl_sprin_tahan.'"> </p>
+        <p>Nama Penyidik
+        <input type="text" class="form-control" name="nama_penyidik" value="'.$row->nama_penyidik.'" > </p>
+        <p>No. Hp Penyidik
+        <input type="text" class="form-control" name="no_hp_penyidik" value="'.$row->no_hp_penyidik.'" > </p>';
+      }
+      return $output;
+    }
     function skhpnView(Request $req)
     {
       $kode_reg = $req->kode;
@@ -326,8 +354,6 @@ class Admin_mainController extends Controller
       $last = explode('-',$req->tgl_last);
       $last = $last[2].'-'.$last[1].'-'.$last[0];
       $data = skhpn::whereBetween(DB::raw('substr(created_at,1,10)'),[$start,$last])->get();
-      // print_r($data);
-      // echo $last;
       return response()->json(['hasil'=>$data]);
     }
 
@@ -810,7 +836,12 @@ class Admin_mainController extends Controller
       }
 
     }
-
+    function userdel(Request $req)
+    {
+      $id = $req->id;
+      akun::where('id',$id)->delete();
+      return "deleted";
+    }
     function jobdel(Request $req)
     {
       $id = $req->id;

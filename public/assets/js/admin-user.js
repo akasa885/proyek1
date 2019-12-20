@@ -78,6 +78,18 @@ $(document).ready(function() {
           }
         }
       });
+    }else if (cde == '9') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/user",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
     }
   });
 
