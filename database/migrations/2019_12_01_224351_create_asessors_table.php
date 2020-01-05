@@ -18,7 +18,9 @@ class CreateAsessorsTable extends Migration
             $table->string('kode_as',5);
             $table->string('nama');
             $table->string('birth_date',12);
-            $table->string('deskripsi',200);
+            $table->string('birth_city',50);
+            $table->string('distrik',20);
+            $table->string('city',20);
             $table->string('photo_loc');
             $table->timestamps();
         });

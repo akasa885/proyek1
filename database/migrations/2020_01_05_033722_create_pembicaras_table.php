@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipeNarkobasTable extends Migration
+class CreatePembicarasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateTipeNarkobasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipe_narkoba', function (Blueprint $table) {
+        Schema::create('pembicara', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode_narkoba', 5)->unique();
-            $table->string('jenis_narkoba');
-            $table->string('satuan');
-            $table->string('add_by')->nullable();
+            $table->string('kode_pem',5);
+            $table->string('nama');
+            $table->string('birth_date',12);
+            $table->string('birth_city',50);
+            $table->string('distrik',20);
+            $table->string('city',20);
+            $table->string('photo_loc');
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateTipeNarkobasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipe_narkoba');
+        Schema::dropIfExists('pembicara');
     }
 }
