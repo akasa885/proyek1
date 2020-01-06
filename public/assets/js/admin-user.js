@@ -61,7 +61,6 @@ $(document).ready(function() {
         cache: false,
         success: function (data) {
           if(data == 'deleted'){
-            alert(lastChar);
             location.reload();
           }
         }
@@ -226,7 +225,14 @@ $(document).ready(function() {
       }
     });
   });
-
+  $('#pilihan_pegawai').change(function () {
+    var pegawaiView = $(this).children("option:selected").val();
+    if (pegawaiView == 'asessor') {
+      location.href = '/dpanel/pegawai/?pilihan=asessor';
+    }else if (pegawaiView == 'sosialisasi') {
+      location.href = '/dpanel/pegawai/?pilihan=sosialisasi';
+    }
+  });
   $('#pilihan_tampil').change(function () {
     var selectedview = $(this).children("option:selected").val();
     if(selectedview == 'tat'){
@@ -495,6 +501,18 @@ $(document).ready(function() {
 
         });
       });
+      $('[data-dismiss=modal]').on('click', function (e) {
+        var $t = $(this),
+            target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+
+      $(target)
+        .find("input[type=text],input[type=number],textarea,select")
+           .val('')
+           .end()
+        .find("input[type=checkbox], input[type=radio]")
+           .prop("checked", "")
+           .end();
+      })
 
 });
 
@@ -518,6 +536,7 @@ function countChar(val) {
           $('#count').text(len+'/500');
         }
 }
+
 function check_sess() {
   // $.ajax({
   //   url: '/sess/check/dash',
@@ -529,6 +548,7 @@ function check_sess() {
   //   }
   // });
 }
+
 function timestamp() {
   $.ajax({
         url: '/time/clock',

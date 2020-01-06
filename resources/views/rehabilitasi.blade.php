@@ -90,7 +90,7 @@
           <div class="input-group">
               <input id="input_gram_{{$tipe}}" type="number" class="form-control check" aria-label="Amount (to the nearest dollar)" name="berat[]"disabled placeholder="0">
             <div class="input-group-append">
-              <span class="input-group-text">gr</span>
+              <span class="input-group-text">{{$type->satuan}}</span>
             </div>
           </div>
           <?php $tipe++;?>

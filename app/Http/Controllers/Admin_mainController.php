@@ -125,6 +125,25 @@ class Admin_mainController extends Controller
       return $output;
     }
 
+    function pegawai_list()
+    {
+      $cek = $this->sessionceklog('dash');
+      if ( $cek == 'checked') {
+        $choice = 'asessor';
+        // $wt = date('Y-m-d');
+        // $data_tat = rehab_tat::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
+        // $data_publik = rehab_publik::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
+        $time = date('d-m-Y');
+        if(!empty($_REQUEST['pilihan']))
+        {
+          $choice = $_REQUEST['pilihan'];
+        }
+        return view('admin/admin-pegawai',['date' => $time, 'choice' => $choice,'username'=>session('user'),'integritas'=>session('integrity')]);
+      }else{
+        return redirect('/dpanel');
+      }
+    }
+
     function sessionceklog($page)
     {
       if ($page == 'dash') {
@@ -768,6 +787,7 @@ class Admin_mainController extends Controller
           tipe_narkoba::insert([
             'kode_narkoba' => $no_regist,
             'jenis_narkoba' => $req->narkoba_name,
+            'satuan' => $req->unit,
             'add_by'=> $integritas,
             'created_at' => date('Y-m-d H:i:s')
           ]);

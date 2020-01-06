@@ -66,6 +66,7 @@ Route::post('/dpanel/serv/skhpn/report/reg_src','Admin_mainController@srcreg');
 Route::get('/dpanel/skhpn/klinik/{id}','Admin_mainController@klinikTampil');
 Route::post('/skhpn/medical/store','Admin_mainController@skhpnstore');
 Route::post('/dpanel/serv/rehab/report/reg_src','Admin_mainController@srcreg');
+Route::get('/dpanel/pegawai/','Admin_mainController@pegawai_list');
 //create
 Route::post('/dpanel/link/store','Admin_mainController@storelink');
 Route::post('/dpanel/create/user','Admin_mainController@usercreate');
