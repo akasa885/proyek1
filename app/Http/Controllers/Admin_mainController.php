@@ -128,6 +128,32 @@ class Admin_mainController extends Controller
       return $output;
     }
 
+    function delPegawai(Request $req)
+    {
+      $id = $req->id;
+      $pegawai = pegawai::select('kode_pegawai')->where('id',$id)->get();
+      foreach ($pegawai as $row) {
+        $kode_pegawai = $row->kode_pegawai;
+      }
+      $dirname = public_path('uploads').'/pegawai'.'/'.$kode_pegawai;
+      if (is_dir($dirname))
+           $dir_handle = opendir($dirname);
+      if (!$dir_handle)
+          return false;
+      while($file = readdir($dir_handle)) {
+           if ($file != "." && $file != "..") {
+                if (!is_dir($dirname."/".$file))
+                     unlink($dirname."/".$file);
+                else
+                     delete_directory($dirname.'/'.$file);
+           }
+      }
+     closedir($dir_handle);
+     rmdir($dirname);
+     pegawai::where('id',$id)->delete();
+     return "deleted";
+    }
+
     function createPegawai(Request $req)
     {
 
@@ -983,12 +1009,14 @@ class Admin_mainController extends Controller
       }
 
     }
+
     function userdel(Request $req)
     {
       $id = $req->id;
       akun::where('id',$id)->delete();
       return "deleted";
     }
+
     function jobdel(Request $req)
     {
       $id = $req->id;

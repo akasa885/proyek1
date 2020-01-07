@@ -77,6 +77,18 @@ $(document).ready(function() {
           }
         }
       });
+    }else if (cde == '8') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/pegawai",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){                        
+            location.reload();
+          }
+        }
+      });
     }else if (cde == '9') {
       $.ajax({
         type: "get",

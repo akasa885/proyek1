@@ -97,7 +97,9 @@
                   <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
                     <button type="button" tabindex="0" class="dropdown-item" onclick="edit_pegawai('{{$row->kode_pegawai}}')" id="view_rehab">Edit</button>
                     <button type="button" tabindex="0" id="print_pdf_rehab" class="dropdown-item" value="{{$print}}" onclick="print_pdf('{{$row->kode_pegawai}}')">Job</button>
-                    <button type="button" tabindex="0" class="dropdown-item">Delete</button>
+                    <div id="del_button_user">
+                      <button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="8">Delete</button>
+                    </div>
                   </div></td>
               </tr>
               @endforeach
@@ -139,7 +141,9 @@
               <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
                 <button type="button" tabindex="0" class="dropdown-item" onclick="edit_pegawai('{{$row->kode_pegawai}}')" id="view_rehab">Edit</button>
                 <button type="button" tabindex="0" id="print_pdf_rehab" class="dropdown-item" value="{{$print}}" onclick="print_pdf('{{$row->kode_pegawai}}')">Job</button>
-                <button type="button" tabindex="0" class="dropdown-item">Delete</button>
+                <div id="del_button_user">
+                  <button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="8">Delete</button>
+                </div>
               </div></td>
           </tr>
           @endforeach
@@ -181,7 +185,9 @@
               <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
                 <button type="button" tabindex="0" class="dropdown-item" onclick="edit_pegawai('{{$row->kode_pegawai}}')" id="view_rehab">Edit</button>
                 <button type="button" tabindex="0" id="print_pdf_rehab" class="dropdown-item" value="{{$print}}" onclick="print_pdf('{{$row->kode_pegawai}}')">Job</button>
-                <button type="button" tabindex="0" class="dropdown-item">Delete</button>
+                <div id="del_button_user">
+                  <button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="8">Delete</button>
+                </div>
               </div></td>
           </tr>
           @endforeach

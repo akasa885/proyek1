@@ -81,6 +81,7 @@ Route::get('/dpanel/delete/narkoba','Admin_mainController@narkobadel');
 Route::get('/dpanel/delete/agama','Admin_mainController@agamadel');
 Route::get('/dpanel/delete/suku','Admin_mainController@sukudel');
 Route::get('/dpanel/delete/user','Admin_mainController@userdel');
+Route::get('/dpanel/delete/pegawai','Admin_mainController@delPegawai');
 
 //update
 Route::get('/skhpn/data/list','Admin_mainController@skhpnView');
