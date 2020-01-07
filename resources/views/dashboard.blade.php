@@ -182,8 +182,8 @@
 
           <div style="background-color: #252668;">
             <!-- Copyright -->
-            <div class="footer-copyright text-center py-3">© 2018 Copyright:
-              <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+            <div class="footer-copyright text-center py-3">© 2020 Copyright:
+              <a href="http://hypebrickid.website/">hypebrickid</a>
             </div>
             <!-- Copyright -->
           </div>

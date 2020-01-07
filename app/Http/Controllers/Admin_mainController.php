@@ -16,6 +16,7 @@ use App\rehab_tat;
 use App\sublink;
 use App\skhpn;
 use App\klinikrehab;
+use App\pegawai;
 
 /**
  *
@@ -24,8 +25,10 @@ class Admin_mainController extends Controller
 {
     protected $username = '';
     protected $inter = '';
+    protected $files;
     function __constructor()
     {
+      $this->files = fileUploadController();
       $this->username = session('user');
       $this->inter = session('integrity');
     }
@@ -125,6 +128,103 @@ class Admin_mainController extends Controller
       return $output;
     }
 
+    function createPegawai(Request $req)
+    {
+
+      // return(var_dump($_REQUEST));
+      $integritas = session('integrity');
+      $messages = [
+      'required' => ':attribute harap diisi',
+      'min' => ':attribute harus diisi minimal :min karakter',
+      'max' => ':attribute harus diisi maksimal :max karakter',
+      'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
+      'numeric' => ':attribute harap menginputkan nomor',
+      ];
+      $validator = \Validator::make($req->all(), [
+        'file' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
+        'nama_lengkap' => 'required',
+        'departemen' => 'required',
+        'bagian' => 'required',
+        'tanggal' => 'numeric|required',
+        'bulan' => 'numeric|required',
+        'kelurahan' => 'required',
+        'city' => 'required',
+      ],$messages);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else{
+          // $location = 'blaslanda';
+          if($integritas == null){
+            $integritas = 'Super Admin';
+          }
+          $no_regist = pegawai::max(DB::raw('substr(kode_pegawai, 3, 5)'));
+          $x = (int)$no_regist;
+          if($x == 0){
+            $no_regist = "PG001";
+          }else{
+            if($x < 10){
+              $no_update = $x + 1;
+              $no_regist = "PG00".$no_update;
+            }elseif ($x < 100) {
+              $no_update = $x + 1;
+              $no_regist = "PG0".$no_update;
+            }elseif ($x < 1000) {
+              $no_update = $x + 1;
+              $no_regist = "PG".$no_update;
+            }
+          }
+          $image = $req->file('file');
+          // $name = "paslasdsda";
+          $fileName = $no_regist.'.'.$image->extension();
+          $path = '/uploads/pegawai'.'/'.$no_regist;
+          $full_path = $path.'/'.$fileName;
+          if (!file_exists($path)) {
+            mkdir($path,777,true);
+          }
+          if(file_exists($full_path))
+          {
+            unlink($full_path);
+          }
+          $req->file->move(public_path('uploads').$path, $fileName);
+
+          pegawai::insert([
+            'kode_pegawai' => $no_regist,
+            'nama' => $req->nama_lengkap,
+            'birth_date' => $req->tanggal.','.$this->monthTranslator($req->bulan),
+            'distrik' => $req->kelurahan,
+            'city' => $req->city,
+            'departemen' => $req->departemen,
+            'bagian' => $req->bagian,
+            'photo_loc' => $full_path,
+            'add_by'=> $integritas,
+            'created_at' => date('Y-m-d H:i:s')
+          ]);
+        }
+        return("sukses");
+    }
+
+    function pegawai_list()
+    {
+      $cek = $this->sessionceklog('dash');
+      if ( $cek == 'checked') {
+        $choice = 'asessor';
+        $data_asessor = pegawai::where('bagian','=','asessor')->paginate(5) ;
+        $data_sosialisasi = pegawai::where('bagian','=','sosialisasi')->paginate(5) ;
+        $data_pegawai = pegawai::all() ;
+        // $data_tat = rehab_tat::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
+        // $data_publik = rehab_publik::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
+        $time = date('d-m-Y');
+        if(!empty($_REQUEST['pilihan']))
+        {
+          $choice = $_REQUEST['pilihan'];
+        }
+        return view('admin/admin-pegawai',['date' => $time,'asessor' => $data_asessor,'sosialisasi' => $data_sosialisasi,'pegawai' => $data_pegawai, 'choice' => $choice,'username'=>session('user'),'integritas'=>session('integrity')]);
+      }else{
+        return redirect('/dpanel');
+      }
+    }
+
     function sessionceklog($page)
     {
       if ($page == 'dash') {
@@ -172,11 +272,13 @@ class Admin_mainController extends Controller
       $get->save();
       return "added";
     }
+
     function waktupukul()
     {
       $timestamp = date('d-m-Y | H:i');
       return $timestamp;
     }
+
     function narkobalist()
     {
       $cek = $this->sessionceklog('dash');
@@ -648,6 +750,50 @@ class Admin_mainController extends Controller
       return redirect('/dpanel/skhpn/klinik/'.$req->reg_num);
     }
 
+    function monthTranslator($month='1')
+    {
+      $Months = '';
+      $bulan = '';
+      if ($month == '1') {
+        $Months = ' Januari';
+        $bulan = 'I';
+      }elseif ($month == '2') {
+        $Months = ' Februari';
+        $bulan = 'II';
+      }elseif ($month == '3') {
+        $Months = ' Maret';
+        $bulan = 'III';
+      }elseif ($month == '4') {
+        $Months = ' April';
+        $bulan = 'IV';
+      }elseif ($month == '5') {
+        $Months = ' Mei';
+        $bulan = 'V';
+      }elseif ($month == '6') {
+        $Months = ' Juni';
+        $bulan = 'VI';
+      }elseif ($month == '7') {
+        $Months = ' Juli';
+        $bulan = 'VII';
+      }elseif ($month == '8') {
+        $Months = ' Agustus';
+        $bulan = 'VIII';
+      }elseif ($month == '9') {
+        $Months = ' September';
+        $bulan = 'IX';
+      }elseif ($month == '10') {
+        $Months = ' Oktober';
+        $bulan = 'X';
+      }elseif ($month == '11') {
+        $Months = ' November';
+        $bulan = 'XI';
+      }elseif ($month == '12') {
+        $Months = ' Desember';
+        $bulan = 'XII';
+      }
+      return $Months;
+    }
+
     function date_penerjemah($tgl)
     {
       $tgl_fix = '';
@@ -691,7 +837,7 @@ class Admin_mainController extends Controller
         $tgl_fix .= ' Desember';
         $bulan = 'XII';
       }
-      $tgl_fix .= ' '.$tgl[2];
+      // $tgl_fix .= ' '.$tgl[2];
       return $bulan;
     }
 
@@ -768,6 +914,7 @@ class Admin_mainController extends Controller
           tipe_narkoba::insert([
             'kode_narkoba' => $no_regist,
             'jenis_narkoba' => $req->narkoba_name,
+            'satuan' => $req->unit,
             'add_by'=> $integritas,
             'created_at' => date('Y-m-d H:i:s')
           ]);

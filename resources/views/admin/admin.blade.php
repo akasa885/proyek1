@@ -418,6 +418,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="/dpanel/pegawai/">
+                                    <i class="metismenu-icon pe-7s-user"></i>
+                                    Pegawai
+                                </a>
+                            </li>
+                            <li>
                                 <a href="#">
                                     <i class="metismenu-icon pe-7s-tools"></i>
                                     Form Settings

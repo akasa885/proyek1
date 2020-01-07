@@ -59,6 +59,12 @@
           {{ csrf_field() }}
           <p>Enter Narkoba Name
           <input type="text" name="narkoba_name" id="narkoba_name" required placeholder="Nama baru narkoba" class="form-control"></p>
+          <p>Enter Item unit
+          <select class="form-control" name="unit">
+            <option value="gr">gr</option>
+            <option value="butir">butir</option>
+            <option value="ml">ml</option>
+          </select> </p>
           <span id="message"></span><br />
           <br />
           <input type="hidden" name="action" id="action">

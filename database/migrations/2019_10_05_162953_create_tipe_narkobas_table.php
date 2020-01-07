@@ -17,6 +17,7 @@ class CreateTipeNarkobasTable extends Migration
             $table->bigIncrements('id');
             $table->string('kode_narkoba', 5)->unique();
             $table->string('jenis_narkoba');
+            $table->string('satuan');
             $table->string('add_by')->nullable();
             $table->timestamps();
         });

@@ -61,7 +61,6 @@ $(document).ready(function() {
         cache: false,
         success: function (data) {
           if(data == 'deleted'){
-            alert(lastChar);
             location.reload();
           }
         }
@@ -225,6 +224,51 @@ $(document).ready(function() {
         }
       }
     });
+  });
+
+  $('form#form_create').submit(function (e) {
+    // $('#form_create').submit(function (e) {
+    //   var formData = new FormData(this);
+    // });
+    // data = $form.serialize();
+    var formData = new FormData(this);
+    $.ajax({
+      type: 'post',
+      url: '/pegawai/form/tambah',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        $('.alert-danger').hide();
+        if(data.errors)
+        {
+          jQuery.each(data.errors, function(key, value){
+                          jQuery('.alert-danger').show();
+                          jQuery('.alert-danger').append('<p>'+value+'</p>');
+                        });
+        }else {
+          $('.alert-danger').hide();
+          alert(data+" Pegawai berhasil ditambahkan!");
+          location.reload();
+        }
+        console.log(data);
+      }
+    });
+  });
+
+  $('#pilihan_pegawai').change(function () {
+    var pegawaiView = $(this).children("option:selected").val();
+    if (pegawaiView == 'asessor') {
+      location.href = '/dpanel/pegawai/?pilihan=asessor';
+    }else if (pegawaiView == 'sosialisasi') {
+      location.href = '/dpanel/pegawai/?pilihan=sosialisasi';
+    }
+  });
+
+  $('#pegawai_all').click(function () {
+    location.href = '/dpanel/pegawai/?pilihan=all'
+    // $(this).addClass('active');
   });
 
   $('#pilihan_tampil').change(function () {
@@ -496,6 +540,22 @@ $(document).ready(function() {
         });
       });
 
+      $('[data-dismiss=modal]').on('click', function (e) {
+        var $t = $(this),
+            target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+
+      $(target)
+        .find("input[type=text],input[type=number],textarea")
+           .val('')
+           .end()
+        .find("select")
+          .prop('selectedIndex',0)
+          .end()
+        .find("input[type=checkbox], input[type=radio]")
+           .prop("checked", "")
+           .end();
+      })
+
 });
 
 function notSpaceFirst(e,val) {
@@ -510,6 +570,41 @@ function notSpaceFirst(e,val) {
     }
   }
 }
+
+function day_check(val) {
+  var month = $('#birth_month').val();
+  var len = val.value.length;
+  var amoun = val.value;
+  if (len > 2) {
+    val.value = val.value.substring(0, 2);
+  }
+  if (amoun > 31) {
+    val.value = '31';
+  }
+  if(month == 2){
+    if (amoun > 29) {
+      val.value = '29';
+    }
+  }
+}
+
+function month_check(val) {
+  var day = $('#birth_day').val();
+  var len = val.value.length;
+  var amoun = val.value;
+  if (len > 2) {
+    val.value = val.value.substring(0, 2);
+  }
+  if (amoun > 12) {
+    val.value = '12';
+  }
+  if (amoun == 2) {
+    if (day > 29) {
+      $('#birth_day').val('29');
+    }
+  }
+}
+
 function countChar(val) {
         var len = val.value.length;
         if (len > 500) {
@@ -518,6 +613,7 @@ function countChar(val) {
           $('#count').text(len+'/500');
         }
 }
+
 function check_sess() {
   // $.ajax({
   //   url: '/sess/check/dash',
@@ -529,6 +625,7 @@ function check_sess() {
   //   }
   // });
 }
+
 function timestamp() {
   $.ajax({
         url: '/time/clock',
