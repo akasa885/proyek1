@@ -14,6 +14,11 @@
 textarea{
   resize: none;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 /* .app-theme-white .app-sidebar {
   background-color: #48b2c5;
 }

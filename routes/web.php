@@ -67,6 +67,7 @@ Route::get('/dpanel/skhpn/klinik/{id}','Admin_mainController@klinikTampil');
 Route::post('/skhpn/medical/store','Admin_mainController@skhpnstore');
 Route::post('/dpanel/serv/rehab/report/reg_src','Admin_mainController@srcreg');
 Route::get('/dpanel/pegawai/','Admin_mainController@pegawai_list');
+Route::post('/pegawai/form/tambah','Admin_mainController@createPegawai');
 //create
 Route::post('/dpanel/link/store','Admin_mainController@storelink');
 Route::post('/dpanel/create/user','Admin_mainController@usercreate');
@@ -97,3 +98,7 @@ Route::get('/dpanel/hint/setting/2','Admin_mainController@hint_sosialisasi');
 Route::get('/dpanel/hint/setting/3','Admin_mainController@hint_rehab');
 Route::get('/dpanel/hint/setting/4','Admin_mainController@hint_skhpn');
 //hint
+
+//coba
+Route::get('file-upload', 'FileUploadController@fileUpload')->name('file.upload');
+Route::post('file-upload', 'FileUploadController@fileUploadPost')->name('file.upload.post');
