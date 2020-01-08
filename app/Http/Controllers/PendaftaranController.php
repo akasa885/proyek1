@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\jobs;
+use App\pegawai;
+
 
 class PendaftaranController extends Controller
 {
@@ -20,6 +22,15 @@ class PendaftaranController extends Controller
       }
     }
     //
+
+    public function choice()
+    {
+      $data_asessor = pegawai::where('bagian','=','asessor')->get() ;
+      $data_sosialisasi = pegawai::where('bagian','=','sosialisasi')->get() ;
+
+      return view('coba_pilih',['asessor' => $data_asessor, 'sosialisasi' => $data_sosialisasi]);
+    }
+
     public function sosialisasi()
     {
       return view('sosialisasi');

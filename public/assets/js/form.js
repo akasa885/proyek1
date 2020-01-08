@@ -77,16 +77,12 @@ $(document).ready(function() {
 
   var form_name = $('#identiti').val();
   if (form_name === "pengaduan") {
-      alert("Selamat Datang");
       $('#change_h').toggleClass('form-auto-add');
     } else if (form_name === "skhpn") {
-      alert("Selamat Datang");
       $('#change_h').addClass('form-s-add');
     } else if (form_name === "sosialisasi") {
-      alert("Selamat Datang");
       $('#change_h').addClass('form-s-add');
     } else if (form_name === "rehab") {
-      alert("Selamat Datang");
       $('#change_h').addClass('form-s-add');
     }else{
       $('#change_h').removeClass('paral-form');

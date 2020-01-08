@@ -34,7 +34,7 @@ Route::get('jenis-pengajuan', 'RehabilitasiController@type');
 
 Route::post('/rehab/tat','RehabilitasiController@proses_tat');
 Route::post('/rehab/publik','RehabilitasiController@proses_publik');
-Route::get('/cons/choice/','RehabilitasiController@pilih_konselor');
+Route::get('/serv/choice/','PendaftaranController@choice');
 Route::get('/pendaftaran-berhasil/rehab/{reg}','RehabilitasiController@terkonfirmasi');
 Route::post('/proses/pengaduan','PengaduanController@insert');
 Route::post('/proses/sosialisasi','SosialisasiController@validasi');

@@ -18,7 +18,7 @@
 
 <br/>
  <!-- form validasi -->
-<form action="/proses/sosialisasi" method="post">
+<form action="/proses/sosialisasi" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
     <input id="identiti" type="hidden" name="identiti" value="sosialisasi">
     <div class="form-group">
@@ -48,7 +48,7 @@
       <div class="col-md-3">
         <div class="position-relative form-group">
           <label for="jam" class="">Jam / Pukul</label>
-          <input type="number" class="form-control" min="1" max="24" onkeyup="hour_check(this)" name="jam" placeholder="jam" id="hour">
+          <input type="number" class="form-control" min="1" max="24" onkeyup="hour_check(this)" name="jam" placeholder="jam" id="hour" value="{{old('jam')}}">
         </div>
       </div>
       <div class="col-md-3">
@@ -89,7 +89,7 @@
     </div>
     <div class="form-group">
         <label for="keterangan">Keterangan</label>
-        <textarea placeholder="Tempat / Lokasi" class="form-control" name="keterangan" rows="3">{{ old('keterangan') }}</textarea>
+        <textarea placeholder="keterangan" class="form-control" name="keterangan" rows="3">{{ old('keterangan') }}</textarea>
     </div>
     <div class="form-group">
         <label for="lampiran">Lampiran Identitas</label>
@@ -106,7 +106,7 @@
     </div>
     <div class="form-group">
       <div class="captcha">
-        <span>{!! captcha_img('inverse') !!}</span>
+        <span>{!! captcha_img('math') !!}</span>
         <button type="button" class="btn btn-success"><i class="fas fa-sync-alt" id="refresh"></i></button>
       </div>
     </div>

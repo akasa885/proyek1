@@ -203,10 +203,11 @@ class Admin_mainController extends Controller
           $image = $req->file('file');
           // $name = "paslasdsda";
           $fileName = $no_regist.'.'.$image->extension();
-          $path = '/uploads/pegawai'.'/'.$no_regist;
-          $full_path = $path.'/'.$fileName;
-          if (!file_exists($path)) {
-            mkdir($path,777,true);
+          $path_dir = '/uploads/pegawai'.'/'.$no_regist;
+          $path = '/pegawai'.'/'.$no_regist;
+          $full_path = $path_dir.'/'.$fileName;
+          if (!file_exists($path_dir)) {
+            mkdir($path_dir,777,true);
           }
           if(file_exists($full_path))
           {

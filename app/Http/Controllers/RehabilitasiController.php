@@ -13,10 +13,6 @@ use App\suku;
 
 class RehabilitasiController extends Controller
 {
-    function pilih_konselor()
-    {
-      return view('pilih_rehab');
-    }
     public function type()
     {
       $tipe_catch = "default";

@@ -1,4 +1,101 @@
 /* topnav start */
+*{
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+  overflow: hidden;
+}
+.cobaparal{
+  height: 500px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.paral-layer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.paral-grup{
+  position: relative;
+  height: 500px;
+  height: 100vh;
+}
+.paral-form{
+  position: relative;
+  height: 1300px;
+  /* min-height: 100vh;
+  height: calc(190vh + 50px);
+  max-height: 240vh; */
+}
+.form-s-add{
+  background-size: cover;
+  height: auto;
+  padding-bottom: 110px;
+}
+.form-auto-add{
+  background-size: cover;
+  height: auto;
+  padding-bottom: 120px;
+}
+.form-n-add{
+  height: calc(1300px + 95vh);
+}
+.form-l-add{
+  height: calc(1300px + 105vh);
+}
+.size-kartu{
+  max-width: 20rem;
+  display: inline-block;
+}
+.paral-grup-menu{
+  position: relative;
+  height: 500px;
+  height: 100vh;
+  margin-bottom: 320px;
+}
+.header-foto{
+  width: 100%;
+  height: 900px;
+  background-size: cover;
+  background-image: url("../images/foto-head.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  /* transition: background-attachment 0.25 ease; */
+}
+.paral-back{
+  transform: translateZ(-1px);
+}
+.paral-foer{
+  transform: translateZ(0);
+}
+/* header end*/
+
+/*z-index*/
+.z-bback{
+  z-index: -2;
+}
+.z-back{
+  z-index: 0;
+}
+.z-fore{
+  z-index:1;
+}
+.z-base{
+  z-index: 2;
+}
+.cover-form{
+  background-color: #fff;
+  width: auto;
+  height: auto;
+  background-size: cover;
+  padding-bottom: 10px;
+}
 .parallax__layer-top{
   position: absolute;
   left: 0;
