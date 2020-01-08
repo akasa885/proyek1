@@ -1,8 +1,8 @@
 $(document).on('click','#service-1',function () {
-  window.location.assign('https://online.bnnsidoarjo.com/?act=ticket');
+  window.location.assign('/bnn/serv/1');
 });
 $(document).on('click','#service-2',function () {
-  window.location.assign('https://online.bnnsidoarjo.com/?act=sosialisasi');
+  window.location.assign('/bnn/serv/2');
 });
 $(document).on('click','#service-3',function () {
   window.location.assign('/bnn/serv/3');

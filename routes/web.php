@@ -37,6 +37,7 @@ Route::post('/rehab/publik','RehabilitasiController@proses_publik');
 Route::get('/cons/choice/','RehabilitasiController@pilih_konselor');
 Route::get('/pendaftaran-berhasil/rehab/{reg}','RehabilitasiController@terkonfirmasi');
 Route::post('/proses/pengaduan','PengaduanController@insert');
+Route::post('/proses/sosialisasi','SosialisasiController@validasi');
 Route::post('/proses/skhpn','SkhpnController@Svalidate');
 Route::get('/serv/4/berhasil/{no_reg}','SkhpnController@sukses');
 //form all end

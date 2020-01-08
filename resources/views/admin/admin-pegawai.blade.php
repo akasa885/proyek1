@@ -16,10 +16,12 @@
               <select class="form-control" id="pilihan_pegawai" name="jenis">
                 @if($choice == 'asessor')
                 <?php $print = 'Asessor'; ?>
+                <option disabled value> -- select an option -- </option>
                 <option value="asessor" selected>Asessor</option>
                 <option value="sosialisasi">Sosialisasi</option>
                 @elseif($choice == 'sosialisasi')
                 <?php $print = 'Sosialisasi'; ?>
+                <option disabled value> -- select an option -- </option>
                 <option value="asessor">Asessor</option>
                 <option value="sosialisasi" selected>Sosialisasi</option>
                 @else
@@ -220,7 +222,7 @@
               <img src="/assets/images/avatars/bnn_user.png" width="100" class="img-fluid" border="2" alt="">
             </div>
             <div class="col-md-6">
-              <label for="textUpload" class="">Upload foto anda (Maks. 7mb)</label>
+              <label for="textUpload" class="">Upload foto anda (Maks. 2mb)</label>
               <input type="file" name="file" class="form-control">
             </div>
           </div>

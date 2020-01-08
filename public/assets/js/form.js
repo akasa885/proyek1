@@ -5,6 +5,7 @@ $(function(){
      todayHighlight: true,
  });
 
+
  var name = $('#i_rehab').val();
  if(name === "tat"){
    $(document).on('click','.form-check-input',function() {
@@ -31,6 +32,28 @@ $(document).on('click','#refresh',function(){
      }
   });
 });
+
+function hour_check(val) {
+  var len = val.value.length;
+  var amoun = val.value;
+  if (len > 2) {
+    val.value = val.value.substring(0, 2);
+  }
+  if (amoun > 24) {
+    val.value = '24';
+  }
+}
+
+function amoun_check(val) {
+  var len = val.value.length;
+  var amoun = val.value;
+  if (len > 3) {
+    val.value = val.value.substring(0, 3);
+  }
+  if (amoun > 0 && amoun < 5) {
+    val.value = '5';
+  }
+}
 // window.setInterval(function(){
 //   cek_isi();
 // }, 5000);
@@ -61,10 +84,12 @@ $(document).ready(function() {
       $('#change_h').addClass('form-s-add');
     } else if (form_name === "sosialisasi") {
       alert("Selamat Datang");
+      $('#change_h').addClass('form-s-add');
     } else if (form_name === "rehab") {
       alert("Selamat Datang");
       $('#change_h').addClass('form-s-add');
     }else{
       $('#change_h').removeClass('paral-form');
     }
+
 });
