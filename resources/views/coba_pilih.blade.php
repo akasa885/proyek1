@@ -22,7 +22,9 @@
         </div>
         <div class="cover-form z-fore">
           <div class="container">
-            <div class="row justify-content-center mt-5">
+            <br>
+            <h2 class="mt-5">SO001</h2>
+            <div class="row justify-content-center mt-4">
               <div class="col-md-3 mt-4">
             		    <div class="card profile-card-5">
             		        <div class="card-img-block">
@@ -43,7 +45,9 @@
                               <div class="card-body pt-0">
                               <h5 class="card-title">Florence Garza</h5>
                               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                              <a href="#" class="btn btn-primary">Go somewhere</a>
+                              <div class="text-center">
+                                <a href="#" class="btn btn-primary">Pilih</a>
+                              </div>
                             </div>
                           </div>
               		</div>

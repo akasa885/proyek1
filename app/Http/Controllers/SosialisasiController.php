@@ -9,6 +9,11 @@ use App\sosialisasi;
 
 class SosialisasiController extends Controller
 {
+    function sukses($no_reg)
+    {
+      return view('sosialisasi-complete',['no_reg' => $no_reg]);
+    }
+
     function validasi(Request $req)
     {
       $messages = [
@@ -37,13 +42,13 @@ class SosialisasiController extends Controller
       if($x == 0){
         $no_regist = "SO001";
       }else{
-        if($x < 10){
+        if($x < 9){
           $no_update = $x + 1;
           $no_regist = "SO00".$no_update;
-        }elseif ($x < 100) {
+        }elseif ($x < 99) {
           $no_update = $x + 1;
           $no_regist = "SO0".$no_update;
-        }elseif ($x < 1000) {
+        }elseif ($x < 999) {
           $no_update = $x + 1;
           $no_regist = "SO".$no_update;
         }
@@ -53,14 +58,15 @@ class SosialisasiController extends Controller
       // $name = "paslasdsda";
       $fileName = $no_regist.'.'.$image->extension();
       $path_dir = '/uploads/lampiran/sosialisasi'.'/'.$no_regist;
+      $path_file = $path_dir.$fileName;
       $path = '/lampiran/sosialisasi/'.$no_regist;
       $full_path = $path_dir.'/'.$fileName;
       if (!file_exists($path_dir)) {
         mkdir($path_dir,777,true);
       }
-      if(file_exists($full_path))
+      if(file_exists($path_file))
       {
-        unlink($full_path);
+        unlink($path_file);
       }
       $image->move(public_path('uploads').$path, $fileName);
 

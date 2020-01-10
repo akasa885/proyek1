@@ -189,13 +189,13 @@ class Admin_mainController extends Controller
           if($x == 0){
             $no_regist = "PG001";
           }else{
-            if($x < 10){
+            if($x < 9){
               $no_update = $x + 1;
               $no_regist = "PG00".$no_update;
-            }elseif ($x < 100) {
+            }elseif ($x < 99) {
               $no_update = $x + 1;
               $no_regist = "PG0".$no_update;
-            }elseif ($x < 1000) {
+            }elseif ($x < 999) {
               $no_update = $x + 1;
               $no_regist = "PG".$no_update;
             }
@@ -204,14 +204,15 @@ class Admin_mainController extends Controller
           // $name = "paslasdsda";
           $fileName = $no_regist.'.'.$image->extension();
           $path_dir = '/uploads/pegawai'.'/'.$no_regist;
+          $path_file = $path_dir.$fileName;
           $path = '/pegawai'.'/'.$no_regist;
           $full_path = $path_dir.'/'.$fileName;
           if (!file_exists($path_dir)) {
             mkdir($path_dir,777,true);
           }
-          if(file_exists($full_path))
+          if(file_exists($path_file))
           {
-            unlink($full_path);
+            unlink($path_file);
           }
           $req->file->move(public_path('uploads').$path, $fileName);
 
@@ -919,13 +920,13 @@ class Admin_mainController extends Controller
       if($x == 0){
         $no_regist = "NK001";
       }else{
-        if($x < 10){
+        if($x < 9){
           $no_update = $x + 1;
           $no_regist = "NK00".$no_update;
-        }elseif ($x < 100) {
+        }elseif ($x < 99) {
           $no_update = $x + 1;
           $no_regist = "NK0".$no_update;
-        }elseif ($x < 1000) {
+        }elseif ($x < 999) {
           $no_update = $x + 1;
           $no_regist = "NK".$no_update;
         }

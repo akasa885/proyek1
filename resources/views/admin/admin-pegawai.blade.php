@@ -225,9 +225,7 @@
               <label for="textUpload" class="">Upload foto anda (Maks. 2mb)</label>
               <input type="file" name="file" class="form-control">
             </div>
-          </div>
-          <p>No user
-          <input type="text" class="form-control" name="no_user" value="" readonly="true"></p>
+          </div>          
           <p>Masukkan Nama Lengkap
           <input type="text" name="nama_lengkap" id="nama_lengkap" required placeholder="Nama anda" class="form-control"></p>
           <p>Masukkan Departemen Anda

@@ -35,11 +35,16 @@ Route::get('jenis-pengajuan', 'RehabilitasiController@type');
 Route::post('/rehab/tat','RehabilitasiController@proses_tat');
 Route::post('/rehab/publik','RehabilitasiController@proses_publik');
 Route::get('/serv/choice/','PendaftaranController@choice');
+Route::get('/serv/choice/selected/{kr}/{np}',array(
+  'as' => 'pilih_pegawai',
+  'uses' => 'PendaftaranController@pilih'
+));
 Route::get('/pendaftaran-berhasil/rehab/{reg}','RehabilitasiController@terkonfirmasi');
 Route::post('/proses/pengaduan','PengaduanController@insert');
 Route::post('/proses/sosialisasi','SosialisasiController@validasi');
 Route::post('/proses/skhpn','SkhpnController@Svalidate');
 Route::get('/serv/4/berhasil/{no_reg}','SkhpnController@sukses');
+Route::get('/serv/2/berhasil/{no_reg}','SosialisasiController@sukses');
 //form all end
 
 Route::get('/time/clock','Admin_mainController@waktupukul');

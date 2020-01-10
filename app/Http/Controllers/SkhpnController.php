@@ -34,16 +34,16 @@ class SkhpnController extends Controller
       $gg = "oke";
       $no_regist = "REG0001";
     }else{
-      if($x < 10){
+      if($x < 9){
         $no_update = $x + 1;
         $no_regist = "REG000".$no_update;
-      }elseif ($x < 100) {
+      }elseif ($x < 99) {
         $no_update = $x + 1;
         $no_regist = "REG00".$no_update;
-      }elseif ($x < 1000) {
+      }elseif ($x < 999) {
         $no_update = $x + 1;
         $no_regist = "REG0".$no_update;
-      }elseif ($x < 10000) {
+      }elseif ($x < 9999) {
         $no_update = $x + 1;
         $no_regist = "REG".$no_update;
       }

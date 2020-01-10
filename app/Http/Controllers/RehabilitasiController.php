@@ -72,16 +72,16 @@ class RehabilitasiController extends Controller
       if($x == 0){
         $no_regist = "TAT0001";
       }else{
-        if($x < 10){
+        if($x < 9){
           $no_update = $x + 1;
           $no_regist = "TAT000".$no_update;
-        }elseif ($x < 100) {
+        }elseif ($x < 99) {
           $no_update = $x + 1;
           $no_regist = "TAT00".$no_update;
-        }elseif ($x < 1000) {
+        }elseif ($x < 999) {
           $no_update = $x + 1;
           $no_regist = "TAT0".$no_update;
-        }elseif ($x < 10000) {
+        }elseif ($x < 9999) {
           $no_update = $x + 1;
           $no_regist = "TAT".$no_update;
         }
@@ -143,16 +143,16 @@ class RehabilitasiController extends Controller
       if($x == 0){
         $no_regist = "PBL0001";
       }else{
-        if($x < 10){
+        if($x < 9){
           $no_update = $x + 1;
           $no_regist = "PBL000".$no_update;
-        }elseif ($x < 100) {
+        }elseif ($x < 99) {
           $no_update = $x + 1;
           $no_regist = "PBL00".$no_update;
-        }elseif ($x < 1000) {
+        }elseif ($x < 999) {
           $no_update = $x + 1;
           $no_regist = "PBL0".$no_update;
-        }elseif ($x < 10000) {
+        }elseif ($x < 9999) {
           $no_update = $x + 1;
           $no_regist = "PBL".$no_update;
         }

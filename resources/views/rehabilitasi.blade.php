@@ -96,6 +96,13 @@
           <?php $tipe++;?>
           @endforeach
       </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="form-check-inline">
+          <label class="form-check-label">
+            <input id="tipe_lainnya" type="checkbox" class="form-check-input" name="tipe[]" value="lainnya">Lainnya
+          </label>
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <label for="nama_penyidik">Nama Penyidik</label>

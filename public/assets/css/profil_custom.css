@@ -6,6 +6,7 @@
   margin-right: 0;
   overflow: hidden;
 }
+.text-center{text-align:center !important}
 .cobaparal{
   height: 500px;
   height: 100vh;
