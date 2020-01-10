@@ -1,7 +1,6 @@
 var name_del ="";
 var txt_html = '';
 
-txt_html = $('#view_result').html();
 
 $(".datepicker").datepicker({
     format: 'dd-mm-yyyy',
@@ -10,6 +9,7 @@ $(".datepicker").datepicker({
 });
 
 $(document).ready(function() {
+  txt_html = $('#view_result').html();
   $("#del_button_user button").on('click',function () {
     $('#DeleteModal').modal('show');
     name_del = $(this).attr("name");
@@ -77,6 +77,8 @@ $(document).ready(function() {
           }
         }
       });
+    }else if (cde == '7') {
+
     }else if (cde == '8') {
       $.ajax({
         type: "get",
@@ -84,7 +86,7 @@ $(document).ready(function() {
         data: {id : lastChar},
         cache: false,
         success: function (data) {
-          if(data == 'deleted'){                        
+          if(data == 'deleted'){
             location.reload();
           }
         }
@@ -295,15 +297,15 @@ $(document).ready(function() {
   $('#reg_num').keyup(function () {
     var txt = $(this).val();
     var selectedview = $('#pilihan_tampil').children("option:selected").val();
-    var skhpn = $('#title_tabel').html();
-    if(skhpn == 'Daftar Pasien SKHPN'){
+    var cari_no = $('#title_tabel').html();
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    if(cari_no == 'Daftar Pasien SKHPN'){
       var tampil = 'skhpn';
       if (txt != '') {
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
         $.ajax({
           url: '/dpanel/serv/skhpn/report/reg_src',
           method: 'post',
@@ -318,13 +320,25 @@ $(document).ready(function() {
         $('#view_result').html('');
         $('#view_result').html(txt_html);
       }
+    }else if (cari_no == 'Daftar Permintaan') {
+      if (txt != '') {
+        var tampil = 'sosio';
+        $.ajax({
+          url: '/dpanel/serv/sosialisasi/report/reg_src',
+          method: 'post',
+          data:{search:txt, view:tampil},
+          dataType:'text',
+          success: function (data) {
+              $('#view_result').html(data);
+          }
+
+        });
+      }else{
+        $('#view_result').html('');
+        $('#view_result').html(txt_html);
+      }
     }else{
       if (txt != '') {
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        });
         $.ajax({
           url: '/dpanel/serv/rehab/report/reg_src',
           method: 'post',
@@ -435,7 +449,37 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         });
-        if (target == '3') {
+        if (target == '2'){
+          $.ajax({
+            url: '/dpanel/sosialisasi/search',
+            method: 'post',
+            cache: false,
+            type: 'json',
+            data: {tgl_start:start,tgl_last:last},
+            success: function (data) {
+              if (data.hasil) {
+                $('#view_result').html('');
+                jQuery.each(data.hasil, function(key, value){
+                                result += '<tr>';
+                                result += '<td>'+value.kode_sos+'</td>';
+                                result += '<td>'+value.nama_pengada+'</td>';
+                                result += '<td>'+value.tgl_pengada+'</td>';
+                                result += '<td>'+value.nama_pj+'</td>';
+                                result += '<td>'+value.nomor_hp_pj+'</td>';
+                                result += '<td>'+value.nama+'</td>';
+                                result += '<td>'+value.created_at+'</td>';
+                                result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
+                                result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_sos+'">';
+                                result += '<button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('+'\''+value.kode_sos+'\''+')">Edit</button>';
+                                result += '  <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="7">Delete</button></div>';
+                                no ++;
+                              });
+              }
+              jQuery('#view_result').append(result);
+            }
+          });
+
+        }else if (target == '3') {
           $.ajax({
             url: '/dpanel/rehab/search/'+selectedview,
             method: 'post',
@@ -647,9 +691,18 @@ function timestamp() {
     });
 }
 
+function lihat_sosio(reg) {
+
+}
+
+function edit_pegawai(reg) {
+
+}
+
 function medical_check(reg) {
   window.location.assign('/dpanel/skhpn/klinik/'+reg);
 }
+
 function print_pdf(reg) {
   var sector = reg.substr(0,3);
   if (sector == 'REG') {

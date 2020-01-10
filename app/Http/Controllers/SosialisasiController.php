@@ -79,7 +79,7 @@ class SosialisasiController extends Controller
         'lokasi_tempat' => $req->address_place,
         'jmlh_peserta' => $req->jmlh_peserta,
         'nama_pj' => $req->nama_duty,
-        'Nomor_hp_pj'=> $req->Nomor_hp_pj,
+        'nomor_hp_pj'=> $req->Nomor_hp_pj,
         'keterangan' => $req->keterangan,
         'lampiran_loc' => $full_path,
         'created_at' => date('Y-m-d H:i:s')

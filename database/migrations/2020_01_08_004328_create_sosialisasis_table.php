@@ -25,7 +25,7 @@ class CreateSosialisasisTable extends Migration
             $table->string('lokasi_tempat');
             $table->integer('jmlh_peserta');
             $table->string('nama_pj');
-            $table->string('Nomor_hp_pj');
+            $table->string('nomor_hp_pj');
             $table->string('keterangan');
             $table->string('lampiran_loc');
             $table->timestamps();

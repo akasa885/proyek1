@@ -3,7 +3,7 @@
 @section('judul_header','Halaman Pengaturan Peagawai')
 @section('sub_header','Ini adalah halaman pegawai BNNK Sidoarjo')
 @section('icon_title')
-<i class="pe-7s-leaf icon-gradient bg-mean-fruit"></i>
+<i class="pe-7s-users icon-gradient bg-mean-fruit"></i>
 @endsection
 @section('konten')
 <div class="row">
@@ -62,7 +62,7 @@
               </div>
           </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive text-nowrap">
       @if($choice == 'asessor')
           <table class="align-middle mb-0 table table-borderless table-striped table-hover">
             <thead>
@@ -98,7 +98,7 @@
                 <td class="text-center"><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
                   <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
                     <button type="button" tabindex="0" class="dropdown-item" onclick="edit_pegawai('{{$row->kode_pegawai}}')" id="view_rehab">Edit</button>
-                    <button type="button" tabindex="0" id="print_pdf_rehab" class="dropdown-item" value="{{$print}}" onclick="print_pdf('{{$row->kode_pegawai}}')">Job</button>
+                    <button type="button" tabindex="0" id="print_pdf_rehab" class="dropdown-item" value="{{$print}}" onclick="job_pegawai('{{$row->kode_pegawai}}')">Job</button>
                     <div id="del_button_user">
                       <button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="8">Delete</button>
                     </div>
@@ -198,6 +198,15 @@
       @endif
         </div>
         <div class="d-block text-center card-footer">
+          <nav class aria-label="Page navigation">
+            @if($choice == 'sosialisasi')
+            {{ $sosialisasi->links() }}
+            @elseif(@choice == 'asessor')
+            {{ $asessor->links() }}
+            @else
+            {{ $pegawai->links() }}
+            @endif
+          </nav>
           <button id="user-input-add" class="btn-wide btn btn-info" type="button" name="button">Tambah</button>
         </div>
       </div>
@@ -225,7 +234,7 @@
               <label for="textUpload" class="">Upload foto anda (Maks. 2mb)</label>
               <input type="file" name="file" class="form-control">
             </div>
-          </div>          
+          </div>
           <p>Masukkan Nama Lengkap
           <input type="text" name="nama_lengkap" id="nama_lengkap" required placeholder="Nama anda" class="form-control"></p>
           <p>Masukkan Departemen Anda

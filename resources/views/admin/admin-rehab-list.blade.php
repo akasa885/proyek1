@@ -70,7 +70,7 @@
       @if($choice == 'tat')
       <div class="card-body">
         <h2 class="card-title">Daftar TAT</h2>
-        <div class="table-responsive">
+        <div class="table-responsive text-nowrap">
           <table class="mb-0 table table-striped">
             <thead>
               <tr>

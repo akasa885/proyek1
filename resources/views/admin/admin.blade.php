@@ -499,16 +499,20 @@
                             </li>
                             <li class="app-sidebar__heading">Sosialisasi</li>
                             <li>
-                                <a href="#">
+                                <a href="{{route('sosio.list')}}">
                                     <i class="metismenu-icon pe-7s-portfolio"></i>
                                     Permintaan
                                 </a>
                             </li>
-                            <li class="app-sidebar__heading">SKHPN Menu</li>
+                            <li class="app-sidebar__heading">Tes Urine</li>
                             <li>
                                 <a href="/dpanel/serv/skhpn/report">
                                     <i class="metismenu-icon pe-7s-news-paper"></i>
-                                    Registrasi
+                                    SKHPN
+                                </a>
+                                <a href="/dpanel/serv/skhpn/report">
+                                    <i class="metismenu-icon pe-7s-news-paper"></i>
+                                    Mandiri
                                 </a>
                             </li>
                             <li class="app-sidebar__heading">Rehabilitasi</li>

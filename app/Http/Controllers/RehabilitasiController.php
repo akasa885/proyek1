@@ -51,19 +51,20 @@ class RehabilitasiController extends Controller
       'required' => ':attribute harap diisi',
       'min' => ':attribute harus diisi minimal :min karakter',
       'max' => ':attribute harus diisi maksimal :max karakter',
-      'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
+      'before' => ':attribute harap memasukkan sebelum :date',
+      'after' => ':attribute harap memasukkan sesudah :date',
       'numeric' => ':attribute harap menginputkan nomor',
       ];
       $req->validate([
         'instansi_pengaju' => 'required',
-        'nama' => 'required',
+        'nama' => 'required|min:5',
         'nik' => 'required|numeric',
         'address' => 'required',
-        'tgl_tangkap' => 'required|before:today',
-        'tgl_sprin_tangkap' => 'required|before:today',
-        'tgl_sprin_tahan' => 'required|before:today',
+        'tgl_tangkap' => 'required|before:tgl_sprin_tahan',
+        'tgl_sprin_tangkap' => 'required|before:tgl_tangkap',
+        'tgl_sprin_tahan' => 'required|after:tgl_tangkap',
         'penyidik' => 'required',
-        'hp_penyidik' => 'required|numeric',
+        'hp_penyidik' => 'required|numeric|max:12',
         'captcha' => 'required|captcha',
       ],$messages);
 
@@ -111,7 +112,9 @@ class RehabilitasiController extends Controller
         'no_hp_penyidik' => $req->hp_penyidik,
         'created_at' => date('Y-m-d H:i:s')
       ]);
-      return redirect('/pendaftaran-berhasil/rehab/'.$no_regist);
+      return redirect('/serv/choice/')
+      ->with('type','asessor')
+      ->with('kode',$no_regist);
     }
 
     public function proses_publik(Request $req)
@@ -133,8 +136,8 @@ class RehabilitasiController extends Controller
         'umur' => 'required|numeric',
         'nama_ibu' => 'required',
         'nama_ayah' => 'required',
-        'no_hp' => 'required|numeric',
-        'no_keluarga' => 'required|numeric',
+        'no_hp' => 'required|numeric|max:12',
+        'no_keluarga' => 'required|numeric|max:12',
         'captcha' => 'required|captcha'
       ],$messages);
 
@@ -181,7 +184,9 @@ class RehabilitasiController extends Controller
         'no_hp_keluarga' => $req->no_keluarga,
         'created_at' => date('Y-m-d H:i:s')
       ]);
-      return redirect('/pendaftaran-berhasil/rehab/'.$no_regist);
+      return redirect('/serv/choice/')
+      ->with('type','asessor')
+      ->with('kode',$no_regist);
     }
     public function terkonfirmasi($reg)
     {

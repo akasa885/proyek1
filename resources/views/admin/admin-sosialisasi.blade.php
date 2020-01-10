@@ -1,7 +1,7 @@
 @extends('admin/admin')
 
-@section('judul_header','Halaman Daftar SKHPN')
-@section('sub_header','Ini adalah halaman SKHPN BNNK Sidoarjo')
+@section('judul_header','Halaman Daftar Sosialisasi')
+@section('sub_header','Ini adalah halaman Sosialisasi BNNK Sidoarjo')
 @section('icon_title')
 <i class="pe-7s-wristwatch icon-gradient bg-mean-fruit"></i>
 @endsection
@@ -36,7 +36,7 @@
                       </div>
                     </div>
                   </div>
-                  <button type="button" class="btn btn-info" id="cari_for_form" name="button" target="4">Cari</button>
+                  <button type="button" class="btn btn-info" id="cari_for_form" name="button" target="2">Cari</button>
                 </div>
               </div>
           </div>
@@ -57,61 +57,54 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <h2 class="card-title" id="title_tabel">Daftar Pasien SKHPN</h2>
+        <h2 class="card-title" id="title_tabel">Daftar Permintaan</h2>
         <div class="table-responsive text-nowrap">
           <table class="mb-0 table table-striped">
             <thead>
               <tr>
                 <td>#</td>
-                <td>Kode_register</td>
-                <td>Nama Lengkap</td>
-                <td>Tanggal Lahir</td>
-                <td>Gender</td>
-                <td>Pekerjaan</td>
-                <td>Status</td>
+                <td>Nama Penyelenggara</td>
+                <td>Tanggal Pelaksanaan</td>
+                <td>Nama PJ</td>
+                <td>Nomor HP PJ</td>
+                <td>Pengisi</td>
                 <td>Tanggal Pembuatan</td>
                 <td>Action</td>
               </tr>
             </thead>
             <tbody id="view_result">
             <?php $num = 1;?>
-            @if($skhpn != null)
-              @foreach($skhpn as $row)
+            @if(!session('src_data'))
+              @foreach($sosio as $row)
             <tr>
-              <td>{{ $num }}</td>
-              <td>{{ $row->kode_registrasi }}</td>
-              <td>{{ $row->nama_lengkap }}</td>
-              <td>{{$row->tanggal_lahir}}</td>
-              <td>{{$row->gender}}</td>
-              <td>{{ $row->pekerjaan }}</td>
-              @if($row->status == 1)
-              <td>Registered</td>
-              @elseif($row->status == 2)
-              <td>Medical Checked</td>
-              @endif
+              <td>{{ $row->kode_sos }}</td>
+              <td>{{ $row->nama_pengada }}</td>
+              <td>{{ $row->tgl_pengada }}</td>
+              <td>{{ $row->nama_pj }}</td>
+              <td>{{ $row->nomor_hp_pj }}</td>
+              <td>{{ $row->nama }}</td>
               <td>{{$row->created_at}}</td>
               <td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
-                  <input type="hidden" name="kode" id="{{$row->kode_registrasi}}">
-                  <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_skhpn('{{$row->kode_registrasi}}')">Edit</button>
-                  @if($row->status == '1')
-                  <button type="button" id="cek_medis" tabindex="0" class="dropdown-item" onclick="medical_check('{{$row->kode_registrasi}}')">Medical Test</button>
-                  @elseif($row->status == '2')
-                  <button type="button" id="print_pdf_skhpn" tabindex="0" class="dropdown-item" onclick="print_pdf('{{$row->kode_registrasi}}')">Print</button>
-                  @endif
-                  <button type="button" tabindex="0" class="dropdown-item">Delete</button>
+                  <input type="hidden" name="kode" id="{{$row->kode_sos}}">
+                  <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('{{$row->kode_sos}}')">Edit</button>
+                  <div id="del_button_user">
+                    <button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="7">Delete</button>
+                  </div>
                 </div>
               </td>
             </tr>
           <?php $num=$num + 1; ?>
           @endforeach
+          @else
+          {{Session::get('src_data')}}
           @endif
             </tbody>
           </table>
         </div>
         <div class="d-block text-center card-footer">
           <nav class aria-label="Page navigation">
-            {{ $skhpn->links() }}
+            {{ $sosio->links() }}
           </nav>
         </div>
       </div>

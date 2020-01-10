@@ -17,7 +17,7 @@ use App\sublink;
 use App\skhpn;
 use App\klinikrehab;
 use App\pegawai;
-
+use App\sosialisasi;
 /**
  *
  */
@@ -239,7 +239,7 @@ class Admin_mainController extends Controller
         $choice = 'asessor';
         $data_asessor = pegawai::where('bagian','=','asessor')->paginate(5) ;
         $data_sosialisasi = pegawai::where('bagian','=','sosialisasi')->paginate(5) ;
-        $data_pegawai = pegawai::all() ;
+        $data_pegawai = pegawai::paginate(5) ;
         // $data_tat = rehab_tat::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
         // $data_publik = rehab_publik::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
         $time = date('d-m-Y');
@@ -402,6 +402,30 @@ class Admin_mainController extends Controller
       }
     }
 
+    function sosList()
+    {
+      $cek = $this->sessionceklog('dash');
+      if ( $cek == 'checked') {
+        $wt = date('Y-m-d');
+        $data_sos = sosialisasi::join('pegawai','pegawai.kode_pegawai','sosialisasi.kode_pegawai')
+        ->select('sosialisasi.*','pegawai.nama')->where(DB::raw('substr(sosialisasi.created_at,1,10)'),'=',$wt)->paginate(5);
+        $time = date('d-m-Y');
+        return view('/admin/admin-sosialisasi',['date' =>$time,'sosio' => $data_sos,'username'=>session('user'),'integritas'=>session('integrity')]);
+      }else{
+        return redirect('/dpanel');
+      }
+    }
+
+    function sosSearch(Request $req)
+    {
+      $start = explode('-',$req->tgl_start);
+      $start = $start[2].'-'.$start[1].'-'.$start[0];
+      $last = explode('-',$req->tgl_last);
+      $last = $last[2].'-'.$last[1].'-'.$last[0];
+      $data = sosialisasi::join('pegawai','pegawai.kode_pegawai','sosialisasi.kode_pegawai')
+      ->select('sosialisasi.*','pegawai.nama')->whereBetween(DB::raw('substr(sosialisasi.created_at,1,10)'),[$start,$last])->get();
+      return response()->json(['hasil'=>$data]);
+    }
 
     function skhpnlist()
     {
@@ -415,6 +439,47 @@ class Admin_mainController extends Controller
         return redirect('/dpanel');
       }
     }
+
+    function rehabPubView(Request $req)
+    {
+      $kode_reg = $req->kode;
+      $output='';
+      $data = rehab_publik::where('kode_registrasi','=',$kode_reg)->get();
+      foreach ($data as $row) {
+        $output .= '
+        <input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
+        <p>Tanggal Kedatangan
+        <input type="text" name="tgl_datang" id="tgl_datang" required placeholder="tgl_datang" class="form-control" value="'.$row->tgl_kedatangan.'"></p>
+        <p>Nama Lengkap
+        <input type="text" name="nama_lengkap" id=fullName required placeholder="Nama" class="form-control" value="'.$row->nama_langkap.'"></p>
+        <p>NIK
+        <input type="text" name="nik" id="nik/ktp" required placeholder="NIK/KTP" class="form-control" value="'.$row->nik_ktp.'"></p>
+        <p>Agama
+        <input type="text" name="agama" id="religi" required placeholder="agama" class="form-control" readonly="true" value="'.$row->agama.'"></p>
+        <p>Suku
+        <input type="text" name="suku" id="suku" required placeholder="Suku" class="form-control" readonly="true" value="'.$row->suku.'"></p>
+        <p>Status';
+        $output .= '
+        <input type="text" name="suku" id="suku" required placeholder="Suku" class="form-control" readonly="true" value="'.$row->suku.'"></p>
+        <p>Nama Lengkap
+        <input type="text" name="nama_ibu" id=namaIbu required placeholder="Nama Ibu" class="form-control" value="'.$row->nama_ibu.'"></p>
+        <p>Nama Lengkap
+        <input type="text" name="nama_ayah" id=namaAyah required placeholder="Nama Ayah" class="form-control" value="'.$row->nama_ayah.'"></p>
+        <p>Alamat
+        <textarea name="address" class="form-control" rows="3">'.$row->alamat.'</textarea> </p>
+        <p>Tanggal penangkapan
+        <input type="text" name="tgl_tangkap" id="tgl_tangkap" readonly="true" required placeholder="Tanggal Tangkap"  class="form-control" value="'.$row->tgl_penangkapan.'"> </p>
+        <p>Tanggal sprin penangkapan
+        <input type="text" name="tgl_sprin_tangkap" id="tgl_sprin_tangkap" readonly="true" required placeholder="Tanggal Sprin Tangkap"  class="form-control" value="'.$row->tgl_sprin_tangkap.'"> </p>
+        <p>Tanggal sprin penahanan
+        <input type="text" name="tgl_sprin_tahan" id="tgl_sprin_tahan" readonly="true" required placeholder="Tanggal Sprin Tahan"  class="form-control" value="'.$row->tgl_sprin_tahan.'"> </p>
+        <p>Nama Penyidik
+        <input type="text" class="form-control" name="nama_penyidik" value="'.$row->nama_penyidik.'" > </p>
+        <p>No. Hp Penyidik
+        <input type="text" class="form-control" name="no_hp_penyidik" value="'.$row->no_hp_penyidik.'" > </p>';
+      }
+    }
+
     function tatView(Request $req)
     {
       $kode_reg = $req->kode;
@@ -424,19 +489,19 @@ class Admin_mainController extends Controller
         $output .= '
         <input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
         <p>Instansi Pengaju
-        <input type="text" name="nama_instansi" id="full_name" required placeholder="Full Name" class="form-control" value="'.$row->instansi_pengaju.'"></p>
+        <input type="text" name="nama_instansi" id="instansi_pengaju" required placeholder="Instansi" class="form-control" value="'.$row->instansi_pengaju.'"></p>
         <p>Nama Tersangka
-        <input type="text" name="nama_tersangka" id="full_name" required placeholder="Full Name" class="form-control" value="'.$row->nama_tersangka.'"></p>
+        <input type="text" name="nama_tersangka" id="tersangka" required placeholder="Nama Tersangka" class="form-control" value="'.$row->nama_tersangka.'"></p>
         <p>NIK
-        <input type="text" name="nik" id="full_name" required placeholder="Full Name" class="form-control" value="'.$row->nik_ktp.'"></p>
+        <input type="text" name="nik" id="nik/ktp" required placeholder="NIK/KTP" class="form-control" value="'.$row->nik_ktp.'"></p>
         <p>Alamat
         <textarea name="address" class="form-control" rows="3">'.$row->alamat.'</textarea> </p>
         <p>Tanggal penangkapan
-        <input type="text" name="tanggal_lahir" id="birth_date" readonly="true" required placeholder="Tanggal Lahir"  class="form-control" value="'.$row->tgl_penangkapan.'"> </p>
+        <input type="text" name="tgl_tangkap" id="tgl_tangkap" readonly="true" required placeholder="Tanggal Tangkap"  class="form-control" value="'.$row->tgl_penangkapan.'"> </p>
         <p>Tanggal sprin penangkapan
-        <input type="text" name="tanggal_lahir" id="birth_date" readonly="true" required placeholder="Tanggal Lahir"  class="form-control" value="'.$row->tgl_sprin_tangkap.'"> </p>
+        <input type="text" name="tgl_sprin_tangkap" id="tgl_sprin_tangkap" readonly="true" required placeholder="Tanggal Sprin Tangkap"  class="form-control" value="'.$row->tgl_sprin_tangkap.'"> </p>
         <p>Tanggal sprin penahanan
-        <input type="text" name="tanggal_lahir" id="birth_date" readonly="true" required placeholder="Tanggal Lahir"  class="form-control" value="'.$row->tgl_sprin_tahan.'"> </p>
+        <input type="text" name="tgl_sprin_tahan" id="tgl_sprin_tahan" readonly="true" required placeholder="Tanggal Sprin Tahan"  class="form-control" value="'.$row->tgl_sprin_tahan.'"> </p>
         <p>Nama Penyidik
         <input type="text" class="form-control" name="nama_penyidik" value="'.$row->nama_penyidik.'" > </p>
         <p>No. Hp Penyidik
@@ -444,6 +509,7 @@ class Admin_mainController extends Controller
       }
       return $output;
     }
+
     function skhpnView(Request $req)
     {
       $kode_reg = $req->kode;
@@ -648,7 +714,6 @@ class Admin_mainController extends Controller
       }elseif ($req->view == 'skhpn') {
         $sour = skhpn::where('kode_registrasi','like','%'.$cari.'%')->get();
         foreach ($sour as $row) {
-          $status = 'masuk loop';
           $output .=
           '<tr>
             <td>'.$no.'</td>
@@ -677,6 +742,23 @@ class Admin_mainController extends Controller
             </td>
           </tr>';
           $no++;
+        }
+        echo $output;
+      }elseif ($req->view == 'sosio') {
+        $sour = sosialisasi::where('kode_sos','like','%'.$cari.'%')->get();
+        foreach ($sour as $row) {
+          $output .= '<tr>
+            <td>'.$row->kode_sos.'</td>
+            <td>'.$row->nama_pengada.'</td>
+            <td>'.$row->tgl_pengada.'</td>
+            <td>'.$row->nama_pj.'</td>
+            <td>'.$row->nomor_hp_pj.'</td>
+            <td>'.$row->nama.'</td>
+            <td>'.$row->created_at.'</td>';
+          $output .= '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
+            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'.$row->kode_sos.'">
+            <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('.$row->kode_sos.')">Edit</button>
+            <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="7">Delete</button></div>' ;
         }
         echo $output;
       }

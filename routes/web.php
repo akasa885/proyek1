@@ -62,16 +62,19 @@ Route::get('/dpanel/form/narkoba','Admin_mainController@narkobalist');
 Route::get('/dpanel/form/suku','Admin_mainController@sukulist');
 
 //rehab
-// Route::get('/dpanel/rehab/data/tat','Admin_mainController@tatlist');
+Route::get('/dpanel/rehab/data/tat','Admin_mainController@tatView');
 // Route::get('/dpanel/rehab/data/publik','Admin_mainController@publiklist');
 Route::get('/dpanel/serv/rehab/report','Admin_mainController@rehablist');
 Route::get('/dpanel/serv/skhpn/report','Admin_mainController@skhpnlist');
+Route::get('/dpanel/serv/sosialisasi/report','Admin_mainController@sosList')->name('sosio.list');
+Route::post('/dpanel/sosialisasi/search','Admin_mainController@sosSearch');
 Route::post('/dpanel/rehab/search/{type}','Admin_mainController@rehabSearch');
 Route::post('/dpanel/skhpn/search','Admin_mainController@skhpnSearch');
 Route::post('/dpanel/serv/skhpn/report/reg_src','Admin_mainController@srcreg');
+Route::post('/dpanel/serv/rehab/report/reg_src','Admin_mainController@srcreg');
+Route::post('/dpanel/serv/sosialisasi/report/reg_src','Admin_mainController@srcreg');
 Route::get('/dpanel/skhpn/klinik/{id}','Admin_mainController@klinikTampil');
 Route::post('/skhpn/medical/store','Admin_mainController@skhpnstore');
-Route::post('/dpanel/serv/rehab/report/reg_src','Admin_mainController@srcreg');
 Route::get('/dpanel/pegawai/','Admin_mainController@pegawai_list');
 Route::post('/pegawai/form/tambah','Admin_mainController@createPegawai');
 //create
