@@ -13,7 +13,7 @@
         <div class="card-header-tab card-header">
           <div class="card-header-title" id="title_tabel">
               <i class="header-icon lnr-rocket icon-gradient bg-tempting-azure"> </i>
-              Medical Check
+              Medical Check @if(Session::get('success'))<span style="color:green;">{{Session::get('success')}}</span>@endif
           </div>
           <div class="btn-actions-pane-right">
               <div class="nav">
@@ -747,7 +747,7 @@
               <div class="col-sm-5">
                 <div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="hasiL_m" id="hsl1" value="1">
+                    <input class="form-check-input" type="radio" name="hasil_m" id="hsl1" value="1">
                     <label class="form-check-label" for="hsl1">Terindikasi</label>
                   </div>
                   <div class="form-check form-check-inline">

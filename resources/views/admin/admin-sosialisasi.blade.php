@@ -117,7 +117,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"><span id="change_title">Data Pasien</span></h4>
+        <h4 class="modal-title"><span id="change_title">Data Penyelenggara</span></h4>
         <button type="button" data-dismiss="modal" class="close">&times;</button>
       </div>
       <div class="modal-body">

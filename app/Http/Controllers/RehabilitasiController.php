@@ -64,7 +64,7 @@ class RehabilitasiController extends Controller
         'tgl_sprin_tangkap' => 'required|before:tgl_tangkap',
         'tgl_sprin_tahan' => 'required|after:tgl_tangkap',
         'penyidik' => 'required',
-        'hp_penyidik' => 'required|numeric|max:12',
+        'hp_penyidik' => 'required|numeric|between:2,12',
         'captcha' => 'required|captcha',
       ],$messages);
 
@@ -121,8 +121,8 @@ class RehabilitasiController extends Controller
     {
       $messages = [
       'required' => ':attribute harap diisi',
-      'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
-      'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
+      'min' => ':attribute harus diisi minimal :min karakter',
+      'max' => ':attribute harus diisi maksimal :max karakter',
       'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
       'numeric' => ':attribute harap menginputkan nomor',
       ];
@@ -136,8 +136,8 @@ class RehabilitasiController extends Controller
         'umur' => 'required|numeric',
         'nama_ibu' => 'required',
         'nama_ayah' => 'required',
-        'no_hp' => 'required|numeric|max:12',
-        'no_keluarga' => 'required|numeric|max:12',
+        'no_hp' => 'required|numeric',
+        'no_keluarga' => 'required|numeric',
         'captcha' => 'required|captcha'
       ],$messages);
 

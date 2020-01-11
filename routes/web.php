@@ -63,11 +63,12 @@ Route::get('/dpanel/form/suku','Admin_mainController@sukulist');
 
 //rehab
 Route::get('/dpanel/rehab/data/tat','Admin_mainController@tatView');
-// Route::get('/dpanel/rehab/data/publik','Admin_mainController@publiklist');
+Route::get('/dpanel/rehab/data/publik','Admin_mainController@rehabPubView');
 Route::get('/dpanel/serv/rehab/report','Admin_mainController@rehablist');
 Route::get('/dpanel/serv/skhpn/report','Admin_mainController@skhpnlist');
 Route::get('/dpanel/serv/sosialisasi/report','Admin_mainController@sosList')->name('sosio.list');
 Route::post('/dpanel/sosialisasi/search','Admin_mainController@sosSearch');
+Route::get('/dpanel/sosialisasi/data','Admin_mainController@sosData');
 Route::post('/dpanel/rehab/search/{type}','Admin_mainController@rehabSearch');
 Route::post('/dpanel/skhpn/search','Admin_mainController@skhpnSearch');
 Route::post('/dpanel/serv/skhpn/report/reg_src','Admin_mainController@srcreg');
@@ -91,13 +92,14 @@ Route::get('/dpanel/delete/agama','Admin_mainController@agamadel');
 Route::get('/dpanel/delete/suku','Admin_mainController@sukudel');
 Route::get('/dpanel/delete/user','Admin_mainController@userdel');
 Route::get('/dpanel/delete/pegawai','Admin_mainController@delPegawai');
+Route::get('/dpanel/delete/sosialisasi','Admin_mainController@sosDel');
 
 //update
 Route::get('/skhpn/data/list','Admin_mainController@skhpnView');
 Route::get('/skhpn/update/store','Admin_mainController@skhpnDataUpdate');
 
 //pdf/dpanel/rehab/report/pdf/skhpn/{}
-// Route::get('/dpanel/rehab/report/pdf/skhpn/{skhpn}','createpdf@skhpnbuatPDF');
+Route::get('/dpanel/rehab/report/pdf/skhpn/{skhpn}','createpdf@skhpnPDF');
 Route::get('/dpanel/rehab/report/pdf/tat/{tat_num}','createpdf@tatbuatPDF');
 Route::get('/dpanel/rehab/report/pdf/pbl/{pbl_num}','createpdf@publikbuatPDF');
 //admin menu

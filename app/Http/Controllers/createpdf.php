@@ -303,6 +303,145 @@ class createpdf extends Controller
       // return $berat;
     }
 
+    function skhpnPDF($reg)
+    {
+      $data_find = klinikrehab::where('kode_registrasi','=',$reg)->get();
+      $this->reg_num = $reg;
+      $this->pdf->AliasNbPages();
+      $this->pdf->AddPage();
+      $this->pdf->Image('assets/images/logo-bnn-terbaru.png',20,10,35,35);
+      $this->pdf->SetAlpha(0.3);
+      $this->pdf->Image('assets/images/logo-bnn-terbaru.png',46,85,120);
+      $this->pdf->SetAlpha(1);
+      // Arial bold 15
+      $this->pdf->SetFont('Arial','B',16);
+      //Enter
+      $this->pdf->Ln(2);
+      // Move to the right
+      $this->pdf->Cell(80);
+      // Title
+      $this->pdf->SetXY(107,6);
+      $this->pdf->Cell(30,19,'BADAN NARKOTIKA NASIONAL',0,0,'C');
+      $this->pdf->SetXY(107,11);
+      $this->pdf->Cell(30,19,'KABUPATEN SIDOARJO',0,0,'C');
+      $this->pdf->SetFont('Arial','',12);
+      $this->pdf->SetXY(107,18);
+      $this->pdf->Cell(30,19,'Kantor : Jl.Perum Taman Pinang Blok AA 8 No.1A Sidoarjo',0,0,'C');
+      $this->pdf->SetXY(107,23);
+      $this->pdf->Cell(30,19,'Kode Pos 61213',0,0,'C');
+      $this->pdf->SetXY(107,28);
+      $this->pdf->Cell(30,19,'Telepon : 031-807972, Fax 51517765',0,0,'C');
+      $this->pdf->SetXY(107,33);
+      $this->pdf->Cell(30,19,'Email : bnnksidoarjo@yahoo.co.id Website :bnnsidoarjo.com',0,0,'C');
+      $this->pdf->Cell(30,65,'E-REGISTRASI KLIEN REHABILITASI RAWAT JALAN DI KLINIK PRATAMA',0,1,'C');
+      $this->pdf->Cell(80);
+      $this->pdf->Cell(30,-53,'BNN KABUPATEN SIDOARJO',0,1,'C');
+      // Line break
+      $this->pdf->Ln(40);
+      $this->pdf->Line(15,55.1,200,55.1);
+      $this->pdf->SetLineWidth(1);
+      $this->pdf->SetFont('arial','',12);
+      $this->pdf->Ln(3);
+      // foreach ($data_find as $row) {
+      //   $this->pdf->Cell(35,10,'TGL. KEDATANGAN',0,0,'C');
+      //   $this->pdf->SetXY(75,66);
+      //   $this->pdf->MultiCell(100,10,':     '.$this->date_penerjemah($row->tgl_kedatangan),0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(30,10,'NAMA LENGKAP',0,0,'C');
+      //   $this->pdf->SetXY(75,77);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->nama_lengkap,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(31,10,'JENIS KELAMAIN',0,0,'C');
+      //   $this->pdf->SetXY(75,88);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->gender,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(30,10,'TANGGAL LAHIR',0,0,'C');
+      //   $this->pdf->SetXY(75,99);
+      //   $this->pdf->MultiCell(100,10,':     '.$this->date_penerjemah($row->birth_date),0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(9,10,'UMUR',0,0,'C');
+      //   $this->pdf->SetXY(75,110);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->umur.' Tahun',0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(20,10,'No.KTP/NIK',0,0,'C');
+      //   $this->pdf->SetXY(75,122);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->nik_ktp,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(25,10,'AGAMA/SUKU',0,0,'C');
+      //   $this->pdf->SetXY(75,133);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->agama.' / '.$row->suku,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(48,10,'JENIS YANG DIGUNAKAN',0,0,'C');
+      //   $this->pdf->SetXY(75,144);
+      //   $nampung = '';
+      //   $narkoba = explode(',',$row->narkoba);
+      //   for ($i=0; $i < count($narkoba) ; $i++) {
+      //     $nampung .= $narkoba[$i];
+      //     if (!$i == (count($narkoba)-1)) {
+      //       $nampung = $nampung." | ";
+      //     }
+      //   }
+      //   $this->pdf->MultiCell(100,10,':     '.$nampung,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(13,10,'STATUS',0,0,'C');
+      //   $this->pdf->SetXY(75,155);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->status,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(17,10,'NAMA IBU',0,0,'C');
+      //   $this->pdf->SetXY(75,166);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->nama_ibu,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(22,10,'NAMA AYAH',0,0,'C');
+      //   $this->pdf->SetXY(75,177);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->nama_ayah,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(31,10,'ALAMAT RUMAH',0,0,'C');
+      //   $this->pdf->SetXY(75,188);
+      //   $this->pdf->MultiCell(130,10,':     '.$row->alamat,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->SetXY(10,208);
+      //   $this->pdf->Cell(20,10,'NOMOR HP',0,0,'C');
+      //   $this->pdf->SetXY(75,208);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->no_hp,0,'L',False);
+      //   $this->pdf->Ln(1);
+      //   $this->pdf->Cell(44,10,'NOMOR HP KELUARGA',0,0,'C');
+      //   $this->pdf->SetXY(75,219);
+      //   $this->pdf->MultiCell(100,10,':     '.$row->no_hp_keluarga,0,'L',False);
+      // }
+      $this->pdf->Ln(2);
+      $this->pdf->Cell(185,10,'Sidoarjo, .............................................]',0,1,'R');
+      $this->pdf->Cell(185,8,'Klien Rehabilitasi Reguler Di Klinik Pratama',0,1,'R');
+      $this->pdf->Cell(167,8,'BNN Kabupaten Sidoarjo',0,1,'R');
+      $this->pdf->SetY(249);
+      $this->pdf->Cell(80,8,'Petugas',0,1,'C');
+      $this->pdf->Ln(8);
+      $this->pdf->Cell(80,5,'..........................................',0,1,'C');
+      $this->pdf->Cell(80,5,'(                                      )',0,1,'C');
+      $this->pdf->SetXY(112,265);
+      $this->pdf->Cell(80,5,'..........................................',0,1,'C');
+      $this->pdf->SetX(112);
+      $this->pdf->Cell(80,5,'(                                      )',0,1,'C');
+
+      $dir_regist = "Documents/Rehab/Publik/".$this->reg_num;
+      if (!file_exists($dir_regist)) {
+        mkdir($dir_regist,777,true);
+      }
+      $this->date_pdf = date('d-m-Y');
+      $path_file = $dir_regist."/".$this->date_pdf.'_'.$this->reg_num.".pdf";
+      if(file_exists($path_file))
+      {
+        $return_data['STATUS_CODE']='00';
+        $return_data['MESSAGE']='File exist';
+        unlink(public_path().'/'.$path_file);
+      }else
+      {
+        $return_data['STATUS_CODE']='01';
+        $return_data['MESSAGE']='File not found, Please tryagain';
+      }
+      $this->pdf->Output($dir_regist."/".$this->date_pdf.'_'.$this->reg_num.".pdf",'F');
+      $path_fix = public_path().'/'.$path_file;
+      return response()->file(public_path().'/'.$path_file);
+    }
 
     function date_penerjemah($tgl)
     {

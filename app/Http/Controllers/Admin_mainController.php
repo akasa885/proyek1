@@ -18,6 +18,7 @@ use App\skhpn;
 use App\klinikrehab;
 use App\pegawai;
 use App\sosialisasi;
+use App\permintaan;
 /**
  *
  */
@@ -402,6 +403,35 @@ class Admin_mainController extends Controller
       }
     }
 
+    function sosDel(Request $req)
+    {
+      $id = $req->id;
+      $data = sosialisasi::select('kode_sos')->where('id',$id)->get();
+      foreach ($data as $row) {
+        $kode_sos = $row->kode_sos;
+      }
+      $dirname = public_path('uploads').'/lampiran/sosialisasi'.'/'.$kode_sos;
+      if (is_dir($dirname))
+           $dir_handle = opendir($dirname);
+      if (!$dir_handle)
+          return false;
+      while($file = readdir($dir_handle)) {
+           if ($file != "." && $file != "..") {
+                if (!is_dir($dirname."/".$file))
+                     unlink($dirname."/".$file);
+                else
+                     delete_directory($dirname.'/'.$file);
+           }
+      }
+     closedir($dir_handle);
+     rmdir($dirname);
+
+     permintaan::where('kode_transaksi','=',$kode_sos)->delete();
+     sosialisasi::where('id',$id)->delete();
+     return 'deleted';
+    }
+
+
     function sosList()
     {
       $cek = $this->sessionceklog('dash');
@@ -440,6 +470,40 @@ class Admin_mainController extends Controller
       }
     }
 
+    function sosData(Request $req)
+    {
+      $kode = $req->kode;
+      $output = '';
+      $sour = sosialisasi::join('pegawai','pegawai.kode_pegawai','sosialisasi.kode_pegawai')
+      ->select('sosialisasi.*','pegawai.nama')->where('kode_sos',$kode)->get();
+      foreach ($sour as $row) {
+        $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_sos.'">
+        <p>Type Sosialisasi
+        <input type="text" name"type_sosialisasi" class="form-control" readonly="true" value="'.$row->sosialisasi_type.'"></p>
+        <p>Nama Pembicara
+        <input type="text" name"pegawai" class="form-control" readonly="true" value="'.$row->nama.'"></p>
+        <p>Nama Penyelenggara
+        <input type="text" name"nama_duty" class="form-control" placeholder="Nama Penyelenggara" value="'.$row->nama_pengada.'"></p>
+        <p>Tanggal Penyelenggaraan
+        <input type="text" name"tgl_pengada" class="form-control" readonly="true" value="'.$row->tgl_pengada.'"></p>
+        <p>Waktu
+        <input type="text" name"waktuAcara" class="form-control" readonly="true" value="'.$row->waktu.'"></p>
+        <p>Lokasi Tempat
+        <input type="text" name"address_place" class="form-control" readonly="true" value="'.$row->lokasi_tempat.'"></p>
+        <p>Jumlah peserta
+        <input type="text" name"jmlhPeserta" class="form-control" readonly="true" value="'.$row->jmlh_peserta.'"></p>
+        <div class="form-row">
+          <div class="col-md-4 easyzoom easyzoom--overlay">
+            <img src="'.$row->lampiran_loc.'" width="100" class="img-fluid" border="2" alt="">
+          </div>
+          <div class="col-md-6">
+            <label for="textUpload" class="">Lampiran Undangan</label>
+          </div>
+        </div>';
+      }
+      return $output;
+    }
+
     function rehabPubView(Request $req)
     {
       $kode_reg = $req->kode;
@@ -449,9 +513,9 @@ class Admin_mainController extends Controller
         $output .= '
         <input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
         <p>Tanggal Kedatangan
-        <input type="text" name="tgl_datang" id="tgl_datang" required placeholder="tgl_datang" class="form-control" value="'.$row->tgl_kedatangan.'"></p>
+        <input type="text" name="tgl_datang" id="tgl_datang" required placeholder="tgl_datang" readonly="true" class="form-control" value="'.$row->tgl_kedatangan.'"></p>
         <p>Nama Lengkap
-        <input type="text" name="nama_lengkap" id=fullName required placeholder="Nama" class="form-control" value="'.$row->nama_langkap.'"></p>
+        <input type="text" name="nama_lengkap" id=fullName required placeholder="Nama" class="form-control" value="'.ucwords($row->nama_lengkap).'"></p>
         <p>NIK
         <input type="text" name="nik" id="nik/ktp" required placeholder="NIK/KTP" class="form-control" value="'.$row->nik_ktp.'"></p>
         <p>Agama
@@ -460,24 +524,19 @@ class Admin_mainController extends Controller
         <input type="text" name="suku" id="suku" required placeholder="Suku" class="form-control" readonly="true" value="'.$row->suku.'"></p>
         <p>Status';
         $output .= '
-        <input type="text" name="suku" id="suku" required placeholder="Suku" class="form-control" readonly="true" value="'.$row->suku.'"></p>
-        <p>Nama Lengkap
-        <input type="text" name="nama_ibu" id=namaIbu required placeholder="Nama Ibu" class="form-control" value="'.$row->nama_ibu.'"></p>
-        <p>Nama Lengkap
-        <input type="text" name="nama_ayah" id=namaAyah required placeholder="Nama Ayah" class="form-control" value="'.$row->nama_ayah.'"></p>
+        <input type="text" name="status" id="status" required placeholder="Status" class="form-control" readonly="true" value="'.ucwords($row->status).'"></p>
+        <p>Nama Ibu
+        <input type="text" name="nama_ibu" id=namaIbu required placeholder="Nama Ibu" class="form-control" value="'.ucwords($row->nama_ibu).'"></p>
+        <p>Nama Ayah
+        <input type="text" name="nama_ayah" id=namaAyah required placeholder="Nama Ayah" class="form-control" value="'.ucwords($row->nama_ayah).'"></p>
         <p>Alamat
         <textarea name="address" class="form-control" rows="3">'.$row->alamat.'</textarea> </p>
-        <p>Tanggal penangkapan
-        <input type="text" name="tgl_tangkap" id="tgl_tangkap" readonly="true" required placeholder="Tanggal Tangkap"  class="form-control" value="'.$row->tgl_penangkapan.'"> </p>
-        <p>Tanggal sprin penangkapan
-        <input type="text" name="tgl_sprin_tangkap" id="tgl_sprin_tangkap" readonly="true" required placeholder="Tanggal Sprin Tangkap"  class="form-control" value="'.$row->tgl_sprin_tangkap.'"> </p>
-        <p>Tanggal sprin penahanan
-        <input type="text" name="tgl_sprin_tahan" id="tgl_sprin_tahan" readonly="true" required placeholder="Tanggal Sprin Tahan"  class="form-control" value="'.$row->tgl_sprin_tahan.'"> </p>
-        <p>Nama Penyidik
-        <input type="text" class="form-control" name="nama_penyidik" value="'.$row->nama_penyidik.'" > </p>
-        <p>No. Hp Penyidik
-        <input type="text" class="form-control" name="no_hp_penyidik" value="'.$row->no_hp_penyidik.'" > </p>';
+        <p>No HP
+        <input type="text" name="noHp" id="no_hp" required placeholder="Nomor Hp"  class="form-control" value="'.$row->no_hp.'"> </p>
+        <p>No HP Keluarga
+        <input type="text" name="noHpKeluarha" id="hp_keluarga" required placeholder="Nomor Keluarga"  class="form-control" value="'.$row->no_hp_keluarga.'"> </p>';
       }
+      return $output;
     }
 
     function tatView(Request $req)
@@ -799,7 +858,7 @@ class Admin_mainController extends Controller
     {
       // $no_id = tipe_narkoba::max(DB::raw('substr(kode_narkoba, 3, 5)'))
       $time = date('Y-m-d');
-      $no_id = 'Nomor :Sket/_____/'.$this->date_penerjemah($time).'/KA/PL.01/2019/BNNK-SDA';
+      $no_id = 'Nomor :Sket/_____/'.$this->date_penerjemah($time).'/KA/PL.01/'.date('Y').'/BNNK-SDA';
       if ($req->used_drug == '1') {
         klinikrehab::insert([
           'no_id' => $no_id,
@@ -823,7 +882,7 @@ class Admin_mainController extends Controller
           'rBenzodiazepine' => $req->benzo,
           'rCocaine' => $req->coca,
           'add_by' => session('user'),
-          'medicalResult' => $req->hasiL_m,
+          'medicalResult' => $req->hasil_m,
           'status' => '2',
           'created_at' => date('Y-m-d H:i:s')
         ]);
@@ -849,7 +908,7 @@ class Admin_mainController extends Controller
           'rBenzodiazepine' => $req->benzo,
           'rCocaine' => $req->coca,
           'add_by' => session('user'),
-          'medicalResult' => $req->hasiL_m,
+          'medicalResult' => $req->hasil_m,
           'status' => '2',
           'created_at' => date('Y-m-d H:i:s')
         ]);
@@ -857,7 +916,8 @@ class Admin_mainController extends Controller
       $get = skhpn::where('kode_registrasi','=',$req->reg_num)->first();
       $get->status = '2';
       $get->save();
-      return redirect('/dpanel/skhpn/klinik/'.$req->reg_num);
+      return back()
+      ->with('success','Penyimpanan Medis Berhasil!');
     }
 
     function monthTranslator($month='1')

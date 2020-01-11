@@ -10,17 +10,111 @@ $(".datepicker").datepicker({
 
 $(document).ready(function() {
   txt_html = $('#view_result').html();
-  $("#del_button_user button").on('click',function () {
+  //delete code js
+  $('body').on('click','#del_button_user button',function(){
+    $('#DeleteModal').modal('show');
+    name_del = $(this).attr("name");
+  });
+  $('#del_button_user button').on('click',function () {
     $('#DeleteModal').modal('show');
     name_del = $(this).attr("name");
   });
 
-  setInterval(timestamp, 1000);
-  setInterval(check_sess, 1000);
-
-  $('#user-input-add').on('click', function () {
-    $('#InputModal').modal('show');
+  $('body').on('click','#user-in-delete',function () {
+    var cde = $('#del_button_user button' ).val();
+    var mol = name_del.length % 2;
+    if( mol == 1){
+        var lastChar = name_del.substr(name_del.length - 1); // => "1"
+    }else if ( mol == 0) {
+      var lastChar = name_del.substr(name_del.length - 2); // => "1"
+    }
+    if (cde == '1') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/agama",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    } else if (cde == '2') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/job",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    } else if (cde == '3') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/narkoba",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    }else if (cde == '4') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/suku",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    }else if (cde == '7') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/sosialisasi",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    }else if (cde == '8') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/pegawai",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    }else if (cde == '9') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/user",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    }
   });
+
   $('#user-in-delete').on('click', function () {
     var cde = $('#del_button_user button' ).val();
     var mol = name_del.length % 2;
@@ -78,7 +172,17 @@ $(document).ready(function() {
         }
       });
     }else if (cde == '7') {
-
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/sosialisasi",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
     }else if (cde == '8') {
       $.ajax({
         type: "get",
@@ -105,6 +209,14 @@ $(document).ready(function() {
       });
     }
   });
+  //deleted code js
+
+  setInterval(timestamp, 1000);
+  setInterval(check_sess, 1000);
+
+  $('#user-input-add').on('click', function () {
+    $('#InputModal').modal('show');
+  });
 
   $('#password, #confirm_password').on('keyup', function () {
   if ($('#password').val() == $('#confirm_password').val()) {
@@ -119,7 +231,7 @@ $(document).ready(function() {
   $('#form_create').submit(function(e) {
       e.preventDefault();
   });
-  $()
+
   $('#user_create_button').click(function () {
     var $form = $('#form_create');
     data = $form.serialize();
@@ -356,16 +468,6 @@ $(document).ready(function() {
     }
   });
 
-  // $('#print_pdf_rehab').click(function () {
-  //   var num = $('#print_pdf_rehab').val();
-  //   var selectedview = $('#pilihan_tampil').children("option:selected").val();
-  //   if (selectedview == 'tat') {
-  //     location.href = "/dpanel/rehab/report/pdf/tat/"+num;
-  //   }else if (selectedview == 'publik') {
-  //     location.href = "/dpanel/rehab/report/pdf/pbl/"+num;
-  //   }
-  // });
-
   $('#link_save').click(function () {
     var ig = $('#ig_link').val();
     var fb = $('#fb_link').val();
@@ -471,7 +573,7 @@ $(document).ready(function() {
                                 result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
                                 result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_sos+'">';
                                 result += '<button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('+'\''+value.kode_sos+'\''+')">Edit</button>';
-                                result += '  <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="7">Delete</button></div>';
+                                result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'+value.id+'" value="7">Delete</button></div>';
                                 no ++;
                               });
               }
@@ -692,7 +794,16 @@ function timestamp() {
 }
 
 function lihat_sosio(reg) {
-
+  $.ajax({
+    url: '/dpanel/sosialisasi/data',
+    method: 'get',
+    cache: false,
+    data: {kode:reg},
+    success: function (data) {
+      $('#InputModal').modal('show');
+      $('#view_data_response').html(data);
+    }
+  });
 }
 
 function edit_pegawai(reg) {
@@ -730,7 +841,7 @@ var selectedview = $('#pilihan_tampil').children("option:selected").val();
     });
   }else if (selectedview == 'publik') {
     $.ajax({
-      url: '/dpanel/rehab/data/tat',
+      url: '/dpanel/rehab/data/publik',
       method: 'get',
       cache: false,
       data: {kode:reg},

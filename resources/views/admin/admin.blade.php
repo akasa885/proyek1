@@ -550,7 +550,7 @@
       </div>
 
 
-  <script type="text/javascript" src="/assets/scripts/main.js"></script>
+  <script type="text/javascript" src="/assets/scripts/main.js" defer></script>
   <script type="text/javascript" src="/assets/js/admin-user.js"></script>
   <!-- <script src="/vendor/bootstrap/js/popper.js"></script> -->
   <!-- <script src="/vendor/bootstrap/js/popper.min.js"></script> -->
