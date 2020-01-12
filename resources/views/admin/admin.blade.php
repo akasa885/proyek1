@@ -510,7 +510,7 @@
                                     <i class="metismenu-icon pe-7s-news-paper"></i>
                                     SKHPN
                                 </a>
-                                <a href="/dpanel/serv/skhpn/report">
+                                <a href="{{route('man.list')}}">
                                     <i class="metismenu-icon pe-7s-news-paper"></i>
                                     Mandiri
                                 </a>

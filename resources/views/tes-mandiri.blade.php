@@ -1,6 +1,6 @@
 @extends('fmaster')
 
-@section('judul','Permohonan Sosialisasi')
+@section('judul','Permohonan Tes Urine Mandiri')
 @section('head_halaman','Form Permohonan')
 
 @section('konten')
@@ -18,12 +18,12 @@
 
 <br/>
  <!-- form validasi -->
-<form action="/proses/sosialisasi" method="post" enctype="multipart/form-data">
+<form action="/proses/tes_mandiri" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
     <input id="identiti" type="hidden" name="identiti" value="sosialisasi">
     <div class="form-group">
-        <label for="gender">Jenis Sosialisasi</label>
-        <select class="form-control" name="sosialisasi_type">
+        <label for="gender">Jenis Tes Urine Mandiri</label>
+        <select class="form-control" name="tes_type">
           <option disabled selected value> -- Pilih Kategori -- </option>
           <option value="masyarakat">Masyarakat</option>
           <option value="pemerintah">Pemerintah</option>

@@ -19,6 +19,7 @@ use App\klinikrehab;
 use App\pegawai;
 use App\sosialisasi;
 use App\permintaan;
+use App\mandiri;
 /**
  *
  */
@@ -398,6 +399,20 @@ class Admin_mainController extends Controller
           $choice = $_REQUEST['pilihan'];
         }
         return view('admin/admin-rehab-list',['tat' => $data_tat, 'publik' => $data_publik, 'date' => $time, 'choice' => $choice,'username'=>session('user'),'integritas'=>session('integrity')]);
+      }else{
+        return redirect('/dpanel');
+      }
+    }
+
+    function manList()
+    {
+      $cek = $this->sessionceklog('dash');
+      if ( $cek == 'checked') {
+        $wt = date('Y-m-d');
+        $data_sos = mandiri::join('pegawai','pegawai.kode_pegawai','mandiri.kode_pegawai')
+        ->select('mandiri.*','pegawai.nama')->where(DB::raw('substr(mandiri.created_at,1,10)'),'=',$wt)->paginate(5);
+        $time = date('d-m-Y');
+        return view('/admin/admin-mandiri',['date' =>$time,'mandiri' => $data_sos,'username'=>session('user'),'integritas'=>session('integrity')]);
       }else{
         return redirect('/dpanel');
       }

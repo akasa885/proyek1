@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Pendaftaran Sosialisasi Berhasil!!</title>
+    <title>Pendaftaran Tes Urine Mandiri Berhasil!!</title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
   </head>

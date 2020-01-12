@@ -13,8 +13,21 @@ class CreateMandirisTable extends Migration
      */
     public function up()
     {
-        Schema::create('mandiris', function (Blueprint $table) {
+        Schema::create('mandiri', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('kode_registrasi',5)->unique();
+            $table->string('kode_pegawai')->nullable();
+            $table->foreign('kode_pegawai')->references('kode_pegawai')->on('pegawai')->onDelete('cascade');
+            $table->string('nama_pengada');
+            $table->string('tgl_pengada');
+            $table->string('tes_type');
+            $table->string('waktu',7);
+            $table->string('lokasi_tempat');
+            $table->integer('jmlh_peserta');
+            $table->string('nama_pj');
+            $table->string('nomor_hp_pj');
+            $table->string('keterangan');
+            $table->string('lampiran_loc');
             $table->timestamps();
         });
     }
@@ -26,6 +39,6 @@ class CreateMandirisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mandiris');
+        Schema::dropIfExists('mandiri');
     }
 }

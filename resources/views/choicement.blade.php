@@ -103,6 +103,40 @@
               </div>
               @endif
 
+              @elseif($type == 'rehab')
+
+              @foreach($rehab as $row)
+              @if($count == 0)
+              <div class="row justify-content-center mt-4">
+              @elseif($count == 4)
+              <?php $count = 0; ?>
+              <div class="row justify-content-center mt-3">
+              @endif
+              <div class="col-md-3 mt-4">
+                    <div class="card profile-card-5">
+                        <div class="card-img-block">
+                            <img class="card-img-top" src="{{$row->photo_loc}}" alt="Card image cap">
+                        </div>
+                            <div class="card-body pt-0">
+                            <h5 class="card-title">{{$row->nama}}</h5>
+                            <p class="card-text">{{$row->birth_date}}<br>{{$row->distrik}}, {{$row->city}} </p>
+                            <div class="text-center">
+                              <a href="{{URL::route('pilih_pegawai',[Session::get('kode'),$row->kode_pegawai])}}" class="btn btn-primary">Pilih</a>
+                            </div>
+                          </div>
+                        </div>
+                </div>
+                <?php $count++ ; ?>
+              @if($count == 3)
+              <?php $count = 4; ?>
+              </div>
+              @endif
+              @endforeach
+              @if($count < 3)
+              <?php $count = 1; ?>
+              </div>
+              @endif
+
               @endif
             </div>
           </div>
