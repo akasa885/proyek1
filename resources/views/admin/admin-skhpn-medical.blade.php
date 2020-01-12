@@ -26,6 +26,7 @@
             @foreach($data as $row)
               <form action="/skhpn/medical/store" method="post">
                 {{csrf_field()}}
+                <?php $no = $row->kode_registrasi; ?>
                 <div class="position-relative row form-group">
                   <label for="reg_no" class="col-sm-2 col-form-label">Register No.</label>
                   <div class="col-sm-10">
@@ -764,7 +765,7 @@
 
         <div class="d-block text-center card-footer">
           <button type="submit" name="button" class="btn btn-info">Simpan</button>
-          <button type="button" class="btn btn-success" name="button">Print</button>
+          <a href="/dpanel/rehab/report/pdf/skhpn/{{$no}}" target="_blank" class="btn btn-success">Print</a>
           <button type="reset" name="button" class="btn btn-light">Reset</button>
         </div>
         </form>
