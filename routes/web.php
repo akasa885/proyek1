@@ -70,6 +70,7 @@ Route::get('/dpanel/serv/rehab/report','Admin_mainController@rehablist');
 Route::get('/dpanel/serv/skhpn/report','Admin_mainController@skhpnlist');
 Route::get('/dpanel/serv/sosialisasi/report','Admin_mainController@sosList')->name('sosio.list');
 Route::get('/dpanel/serv/mandiri/report','Admin_mainController@manList')->name('man.list');
+Route::get('/dpanel/mandiri/data','Admin_mainController@manData');
 Route::post('/dpanel/sosialisasi/search','Admin_mainController@sosSearch');
 Route::get('/dpanel/sosialisasi/data','Admin_mainController@sosData');
 Route::post('/dpanel/rehab/search/{type}','Admin_mainController@rehabSearch');

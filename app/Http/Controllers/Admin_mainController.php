@@ -418,6 +418,40 @@ class Admin_mainController extends Controller
       }
     }
 
+    function manData(Request $req)
+    {
+      $kode = $req->kode;
+      $output = '';\
+      $sour = mandiri::join('pegawai','pegawai.kode_pegawai','mandiri.kode_pegawai')
+      ->select('mandiri.*','pegawai.nama')->where('kode_registrasi',$kode)->get();
+      foreach ($sour as $row) {
+        $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_sos.'">
+        <p>Type Tes Urine Mandiri
+        <input type="text" name"type_tes" class="form-control" readonly="true" value="'.$row->tes_type.'"></p>
+        <p>Nama Pembicara
+        <input type="text" name"pegawai" class="form-control" readonly="true" value="'.$row->nama.'"></p>
+        <p>Nama Penyelenggara
+        <input type="text" name"nama_duty" class="form-control" placeholder="Nama Penyelenggara" value="'.$row->nama_pengada.'"></p>
+        <p>Tanggal Penyelenggaraan
+        <input type="text" name"tgl_pengada" class="form-control" readonly="true" value="'.$row->tgl_pengada.'"></p>
+        <p>Waktu
+        <input type="text" name"waktuAcara" class="form-control" readonly="true" value="'.$row->waktu.'"></p>
+        <p>Lokasi Tempat
+        <input type="text" name"address_place" class="form-control" readonly="true" value="'.$row->lokasi_tempat.'"></p>
+        <p>Jumlah peserta
+        <input type="text" name"jmlhPeserta" class="form-control" readonly="true" value="'.$row->jmlh_peserta.'"></p>
+        <div class="form-row">
+          <div class="col-md-4 easyzoom easyzoom--overlay">
+            <img src="'.$row->lampiran_loc.'" width="100" class="img-fluid" border="2" alt="">
+          </div>
+          <div class="col-md-6">
+            <label for="textUpload" class="">Lampiran Undangan</label>
+          </div>
+        </div>';
+      }
+      return $output;
+    }
+
     function sosDel(Request $req)
     {
       $id = $req->id;

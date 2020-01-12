@@ -853,6 +853,20 @@ var selectedview = $('#pilihan_tampil').children("option:selected").val();
   }
 }
 
+function lihat_mandiri(reg) {
+  var kode = reg;
+  $.ajax({
+    url: '/dpanel/mandiri/data',
+    method: 'get',
+    cache: false,
+    data: {kode:kode},
+    success: function (data) {
+      $('#InputModal').modal('show');
+      $('#view_data_response').html(data);
+    }
+  });
+}
+
 function lihat_skhpn(reg) {
   var kode = reg;
   $.ajax({
