@@ -223,9 +223,9 @@
         <button type="button" data-dismiss="modal" class="close">&times;</button>
       </div>
       <div class="modal-body" id="dynamic-content">
-        <form id="form_create" method="post" enctype="multipart/form-data">
+        <form id="form_create_pegawai" method="post" enctype="multipart/form-data">
           <div class="alert alert-danger" style="display:none"></div>
-          {{ csrf_field() }}
+
           <div class="form-row">
             <div class="col-md-4">
               <img src="/assets/images/avatars/bnn_user.png" width="100" class="img-fluid" border="2" alt="">
@@ -284,6 +284,32 @@
           <input type="hidden" name="action" id="action">
           <input type="hidden" name="old_name" id="old_name">
           <input type="submit" name="pegawai_button" id="pegawai_create_button" class="btn btn-info" value="Create">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="EditModal" tabindex="1" class="modal fade bd-example-modal-lg" role="dialog"  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><span id="change_title">Data Penyelenggara</span></h4>
+        <button type="button" data-dismiss="modal" class="close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form_edit_pegawai" method="post" enctype="multipart/form-data">
+          <div class="alert alert-danger" style="display:none"></div>
+          <div id="view_data_response">
+
+          </div>
+          <span id="message"></span><br />
+          <br />
+          <input type="hidden" name="action" id="action">
+          <input type="hidden" name="old_name" id="old_name">
+          <input type="submit" name="user_button" id="pegawai_update_button" class="btn btn-info" value="Simpan Perubahan">
         </form>
       </div>
       <div class="modal-footer">

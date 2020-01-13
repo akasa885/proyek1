@@ -234,6 +234,87 @@ class Admin_mainController extends Controller
         return("sukses");
     }
 
+    function pegawai_edit(Request $req)
+    {
+      $kode = $req->kode;
+      $sour = pegawai::where('kode_pegawai',$kode)->get();
+      $output = '';
+      foreach ($sour as $row) {
+        $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_pegawai.'">
+        <div class="form-row">
+          <div class="col-md-4">
+            <img src="'.$row->photo_loc.'" width="100" class="img-fluid" border="2" alt="">
+          </div>
+          <div class="col-md-6">
+            <label for="textUpload" class="">Upload foto anda (Maks. 2mb)</label>
+            <input type="file" id="file" name="file" class="form-control">
+          </div>
+        </div>
+        <p>Nama Lengkap
+        <input type="text" name="nama" id="nama" class="form-control" value="'.$row->nama.'"></p>
+        <p>Departemen
+        <input type="text" name="departemen" id="depart" class="form-control" readonly="true" value="'.$row->departemen.'"></p>
+        <p>Bagian
+        <input type="text" name="bagian" id="bagian" class="form-control" readonly="true" value="'.$row->bagian.'"></p>
+        <p>Tanggal Lahir
+        <input type="text" name="birth" class="form-control" readonly="true" value="'.$row->birth_date.'"></p>
+        <p>Kelurahan
+        <input type="text" name="distrik" id="distrik" class="form-control" value="'.$row->distrik.'"></p>
+        <p>Kota
+        <input type="text" name="city" id="city" class="form-control" value="'.$row->city.'"></p>';
+      }
+      return $output;
+    }
+
+    function pegawaiDataUpdate(Request $req)
+    {
+      $kode = $req->identity;
+      $messages = [
+      'required' => ':attribute harap diisi',
+      'min' => ':attribute harus diisi minimal :min karakter',
+      'max' => ':attribute harus diisi maksimal :max karakter',
+      'before' => ':attribute harap memasukkan sebelum tanggal sekarang',
+      'numeric' => ':attribute harap menginputkan nomor',
+      ];
+      $validator = \Validator::make($req->all(), [
+        'file' => 'image|mimes:jpg,png,jpeg,gif|max:2048',
+        'nama' => 'required',
+        'departemen' => 'required',
+        'bagian' => 'required',
+        'distrik' => 'required',
+        'city' => 'required',
+      ],$messages);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else{
+          $get = pegawai::where('kode_pegawai','=',$kode)->first();
+          $get->nama = $req->nama;
+          $get->distrik = $req->distrik;
+          $get->city = $req->city;
+          if ($req->file != null) {
+            $image = $req->file('file');
+            // $name = "paslasdsda";
+            $fileName = $kode.'.'.$image->extension();
+            $path_dir = '/uploads/pegawai'.'/'.$kode;
+            $path_file = $path_dir.$fileName;
+            $path = '/pegawai'.'/'.$kode;
+            $full_path = $path_dir.'/'.$fileName;
+            if (!file_exists($path_dir)) {
+              mkdir($path_dir,777,true);
+            }
+            if(file_exists($path_file))
+            {
+              unlink($path_file);
+            }
+            $req->file->move(public_path('uploads').$path, $fileName);
+            $get->photo_loc = $full_path;
+          }
+          $get->save();
+          echo 'sukses';
+        }
+    }
+
     function pegawai_list()
     {
       $cek = $this->sessionceklog('dash');
@@ -418,10 +499,21 @@ class Admin_mainController extends Controller
       }
     }
 
+    function manSearch(Request $req)
+    {
+      $start = explode('-',$req->tgl_start);
+      $start = $start[2].'-'.$start[1].'-'.$start[0];
+      $last = explode('-',$req->tgl_last);
+      $last = $last[2].'-'.$last[1].'-'.$last[0];
+      $data = mandiri::join('pegawai','pegawai.kode_pegawai','mandiri.kode_pegawai')
+      ->select('mandiri.*','pegawai.nama')->whereBetween(DB::raw('substr(mandiri.created_at,1,10)'),[$start,$last])->get();
+      return response()->json(['hasil'=>$data]);
+    }
+
     function manData(Request $req)
     {
       $kode = $req->kode;
-      $output = '';\
+      $output = '';
       $sour = mandiri::join('pegawai','pegawai.kode_pegawai','mandiri.kode_pegawai')
       ->select('mandiri.*','pegawai.nama')->where('kode_registrasi',$kode)->get();
       foreach ($sour as $row) {

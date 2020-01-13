@@ -231,6 +231,12 @@ $(document).ready(function() {
   $('#form_create').submit(function(e) {
       e.preventDefault();
   });
+  $('#form_create_pegawai').submit(function(e) {
+      e.preventDefault();
+  });
+  $('#form_edit_pegawai').submit(function(e) {
+      e.preventDefault();
+  });
 
   $('#user_create_button').click(function () {
     var $form = $('#form_create');
@@ -352,12 +358,17 @@ $(document).ready(function() {
     });
   });
 
-  $('form#form_create').submit(function (e) {
+  $('form#form_create_pegawai').submit(function (e) {
     // $('#form_create').submit(function (e) {
     //   var formData = new FormData(this);
     // });
     // data = $form.serialize();
     var formData = new FormData(this);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
     $.ajax({
       type: 'post',
       url: '/pegawai/form/tambah',
@@ -378,7 +389,6 @@ $(document).ready(function() {
           alert(data+" Pegawai berhasil ditambahkan!");
           location.reload();
         }
-        console.log(data);
       }
     });
   });
@@ -494,20 +504,48 @@ $(document).ready(function() {
       });
     }
   });
-      // $('.dropdown-menu #view_skhpn').on('click',function () {
-      //   var kode = $(this).closest('.dropdown-menu').children("input:hidden").attr('id');
-      //   $.ajax({
-      //     url: '/skhpn/data/list',
-      //     method: 'get',
-      //     cache: false,
-      //     data: {kode:kode},
-      //     success: function (data) {
-      //       $('#InputModal').modal('show');
-      //       $('#view_data_response').html(data);
-      //       // alert(data);
-      //     }
-      //   });
-      // });
+
+      $(document).on('submit','form#form_edit_pegawai',function (e) {
+        // $('#form_create').submit(function (e) {
+        //   var formData = new FormData(this);
+        // });
+        // data = $form.serialize();
+        var form = $(this);
+        // var x = document.getElementById("form_edit_pegawai").elements.length;
+        // var file = $(this)[0].form;
+        var fData = new FormData(this);
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          type: 'post',
+          url: '/pegawai/update/store',
+          data: fData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success:function (data) {
+            if(data.errors)
+            {
+              jQuery.each(data.errors, function(key, value){
+                              jQuery('.alert-danger').show();
+                              jQuery('.alert-danger').append('<p>'+value+'</p>');
+                            });
+            }else {
+              $('.alert-danger').hide();
+              alert("Perubahan disimpan");
+              location.reload();
+              // alert(data);
+            }
+          },
+          erorr: function (data) {
+            console.log(data);
+          }
+        });
+      });
+
       $('#skhpn_update_button').on('click',function () {
         var $form = $('#form_edit');
         data = $form.serialize();
@@ -662,6 +700,35 @@ $(document).ready(function() {
               jQuery('#view_result').append(result);
             }
           });
+        } else if (target == '5') {
+          $.ajax({
+            url: '/dpanel/mandiri/search',
+            method: 'post',
+            cache: false,
+            type: 'json',
+            data: {tgl_start:start,tgl_last:last},
+            success: function (data) {
+              if (data.hasil) {
+                $('#view_result').html('');
+                jQuery.each(data.hasil, function(key, value){
+                                result += '<tr>';
+                                result += '<td>'+value.kode_registrasi+'</td>';
+                                result += '<td>'+value.nama_pengada+'</td>';
+                                result += '<td>'+value.tgl_pengada+'</td>';
+                                result += '<td>'+value.nama_pj+'</td>';
+                                result += '<td>'+value.nomor_hp_pj+'</td>';
+                                result += '<td>'+value.nama+'</td>';
+                                result += '<td>'+value.created_at+'</td>';
+                                result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
+                                result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_registrasi+'">';
+                                result += '<button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('+'\''+value.kode_registrasi+'\''+')">Edit</button>';
+                                result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'+value.id+'" value="10">Delete</button></div>';
+                                no ++;
+                              });
+              }
+              jQuery('#view_result').append(result);
+            }
+          });
         }
       });
 
@@ -807,7 +874,16 @@ function lihat_sosio(reg) {
 }
 
 function edit_pegawai(reg) {
-
+  $.ajax({
+    url: '/dpanel/pegawai/data',
+    method: 'get',
+    cache: false,
+    data: {kode:reg},
+    success: function (data) {
+      $('#EditModal').modal('show');
+      $('#view_data_response').append(data);
+    }
+  });
 }
 
 function medical_check(reg) {

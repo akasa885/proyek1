@@ -57,7 +57,7 @@
   <div class="col-md-12">
     <div class="main-card mb-3 card">
       <div class="card-body">
-        <h2 class="card-title" id="title_tabel">Daftar Permintaan</h2>
+        <h2 class="card-title" id="title_tabel">Daftar Tes Urine</h2>
         <div class="table-responsive text-nowrap">
           <table class="mb-0 table table-striped">
             <thead>
@@ -131,7 +131,7 @@
           <br />
           <input type="hidden" name="action" id="action">
           <input type="hidden" name="old_name" id="old_name">
-          <input type="button" name="user_button" id="skhpn_update_button" class="btn btn-info" value="Simpan Perubahan">
+          <input type="button" name="user_button" id="mandiri_update_button" class="btn btn-info" value="Simpan Perubahan">
         </form>
       </div>
       <div class="modal-footer">
