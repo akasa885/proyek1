@@ -510,6 +510,34 @@ class Admin_mainController extends Controller
       return response()->json(['hasil'=>$data]);
     }
 
+    function manDel(Request $req)
+    {
+      $id = $req->id;
+      $data = mandiri::select('kode_registrasi')->where('id',$id)->get();
+      foreach ($data as $row) {
+        $kode_registrasi = $row->kode_registrasi;
+      }
+      $dirname = public_path('uploads').'/lampiran/tes mandiri'.'/'.$kode_registrasi;
+      if (is_dir($dirname))
+           $dir_handle = opendir($dirname);
+      if (!$dir_handle)
+          return false;
+      while($file = readdir($dir_handle)) {
+           if ($file != "." && $file != "..") {
+                if (!is_dir($dirname."/".$file))
+                     unlink($dirname."/".$file);
+                else
+                     delete_directory($dirname.'/'.$file);
+           }
+      }
+     closedir($dir_handle);
+     rmdir($dirname);
+
+     permintaan::where('kode_mandiri','=',$kode_registrasi)->delete();
+     mandiri::where('id',$id)->delete();
+     return 'deleted';
+    }
+
     function manData(Request $req)
     {
       $kode = $req->kode;
@@ -517,7 +545,7 @@ class Admin_mainController extends Controller
       $sour = mandiri::join('pegawai','pegawai.kode_pegawai','mandiri.kode_pegawai')
       ->select('mandiri.*','pegawai.nama')->where('kode_registrasi',$kode)->get();
       foreach ($sour as $row) {
-        $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_sos.'">
+        $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
         <p>Type Tes Urine Mandiri
         <input type="text" name"type_tes" class="form-control" readonly="true" value="'.$row->tes_type.'"></p>
         <p>Nama Pembicara
@@ -567,7 +595,7 @@ class Admin_mainController extends Controller
      closedir($dir_handle);
      rmdir($dirname);
 
-     permintaan::where('kode_transaksi','=',$kode_sos)->delete();
+     permintaan::where('kode_sosialisasi','=',$kode_sos)->delete();
      sosialisasi::where('id',$id)->delete();
      return 'deleted';
     }
@@ -945,7 +973,8 @@ class Admin_mainController extends Controller
         }
         echo $output;
       }elseif ($req->view == 'sosio') {
-        $sour = sosialisasi::where('kode_sos','like','%'.$cari.'%')->get();
+        $sour = sosialisasi::join('pegawai','pegawai.kode_pegawai','sosialisasi.kode_pegawai')
+        ->select('sosialisasi.*','pegawai.nama')->where('kode_sos','like','%'.$cari.'%')->get();
         foreach ($sour as $row) {
           $output .= '<tr>
             <td>'.$row->kode_sos.'</td>
@@ -961,9 +990,26 @@ class Admin_mainController extends Controller
             <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="7">Delete</button></div>' ;
         }
         echo $output;
+      }elseif ($req->view == 'mandiri') {
+        $sour = mandiri::join('pegawai','pegawai.kode_pegawai','mandiri.kode_pegawai')
+        ->select('mandiri.*','pegawai.nama')->where('kode_registrasi','like','%'.$cari.'%')->get();
+        foreach ($sour as $row) {
+          $output .= '<tr>
+            <td>'.$row->kode_registrasi.'</td>
+            <td>'.$row->nama_pengada.'</td>
+            <td>'.$row->tgl_pengada.'</td>
+            <td>'.$row->nama_pj.'</td>
+            <td>'.$row->nomor_hp_pj.'</td>
+            <td>'.$row->nama.'</td>
+            <td>'.$row->created_at.'</td>';
+          $output .= '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
+            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'.$row->kode_registrasi.'">
+            <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('.$row->kode_registrasi.')">Edit</button>
+            <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="10">Delete</button></div>' ;
       }
+      echo $output;
     }
-
+}
 
     function jobcreate(Request $req)
     {

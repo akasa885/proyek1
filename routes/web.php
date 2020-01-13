@@ -76,9 +76,10 @@ Route::post('/dpanel/sosialisasi/search','Admin_mainController@sosSearch');
 Route::get('/dpanel/sosialisasi/data','Admin_mainController@sosData');
 Route::post('/dpanel/rehab/search/{type}','Admin_mainController@rehabSearch');
 Route::post('/dpanel/skhpn/search','Admin_mainController@skhpnSearch');
+Route::post('/dpanel/serv/sosialisasi/report/reg_src','Admin_mainController@srcreg');
 Route::post('/dpanel/serv/skhpn/report/reg_src','Admin_mainController@srcreg');
 Route::post('/dpanel/serv/rehab/report/reg_src','Admin_mainController@srcreg');
-Route::post('/dpanel/serv/sosialisasi/report/reg_src','Admin_mainController@srcreg');
+Route::post('/dpanel/serv/mandiri/report/reg_src','Admin_mainController@srcreg');
 Route::get('/dpanel/skhpn/klinik/{id}','Admin_mainController@klinikTampil');
 Route::post('/skhpn/medical/store','Admin_mainController@skhpnstore');
 Route::get('/dpanel/pegawai/','Admin_mainController@pegawai_list');
@@ -99,6 +100,7 @@ Route::get('/dpanel/delete/suku','Admin_mainController@sukudel');
 Route::get('/dpanel/delete/user','Admin_mainController@userdel');
 Route::get('/dpanel/delete/pegawai','Admin_mainController@delPegawai');
 Route::get('/dpanel/delete/sosialisasi','Admin_mainController@sosDel');
+Route::get('/dpanel/delete/mandiri','Admin_mainController@manDel');
 
 //update
 Route::get('/skhpn/data/list','Admin_mainController@skhpnView');

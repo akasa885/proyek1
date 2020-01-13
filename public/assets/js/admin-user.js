@@ -112,6 +112,18 @@ $(document).ready(function() {
           }
         }
       });
+    }else if (cde == '10') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/mandiri",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
     }
   });
 
@@ -199,6 +211,18 @@ $(document).ready(function() {
       $.ajax({
         type: "get",
         url: "/dpanel/delete/user",
+        data: {id : lastChar},
+        cache: false,
+        success: function (data) {
+          if(data == 'deleted'){
+            location.reload();
+          }
+        }
+      });
+    }else if (cde == '10') {
+      $.ajax({
+        type: "get",
+        url: "/dpanel/delete/mandiri",
         data: {id : lastChar},
         cache: false,
         success: function (data) {
@@ -445,6 +469,23 @@ $(document).ready(function() {
     }else if (cari_no == 'Daftar Permintaan') {
       if (txt != '') {
         var tampil = 'sosio';
+        $.ajax({
+          url: '/dpanel/serv/sosialisasi/report/reg_src',
+          method: 'post',
+          data:{search:txt, view:tampil},
+          dataType:'text',
+          success: function (data) {
+              $('#view_result').html(data);
+          }
+
+        });
+      }else{
+        $('#view_result').html('');
+        $('#view_result').html(txt_html);
+      }
+    }else if (cari_no == 'Daftar Tes Urine') {
+      if (txt != '') {
+        var tampil = 'mandiri';
         $.ajax({
           url: '/dpanel/serv/sosialisasi/report/reg_src',
           method: 'post',
