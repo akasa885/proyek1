@@ -15,7 +15,7 @@ class CreateMandirisTable extends Migration
     {
         Schema::create('mandiri', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode_registrasi',5)->unique();
+            $table->string('kode_registrasi',10)->unique();
             $table->string('kode_pegawai')->nullable();
             $table->foreign('kode_pegawai')->references('kode_pegawai')->on('pegawai')->onDelete('cascade');
             $table->string('nama_pengada');

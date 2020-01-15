@@ -497,6 +497,7 @@
                                     Report
                                 </a>
                             </li>
+                            @if($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'p2m')
                             <li class="app-sidebar__heading">Sosialisasi</li>
                             <li>
                                 <a href="{{route('sosio.list')}}">
@@ -504,6 +505,7 @@
                                     Permintaan
                                 </a>
                             </li>
+                            @elseif($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'skhpn')
                             <li class="app-sidebar__heading">Tes Urine</li>
                             <li>
                                 <a href="/dpanel/serv/skhpn/report">
@@ -515,6 +517,7 @@
                                     Mandiri
                                 </a>
                             </li>
+                            @elseif($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'rehab')
                             <li class="app-sidebar__heading">Rehabilitasi</li>
                             <li>
                                 <a href="/dpanel/serv/rehab/report">
@@ -522,6 +525,7 @@
                                     Demand
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

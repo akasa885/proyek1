@@ -44,6 +44,7 @@ Route::post('/proses/pengaduan','PengaduanController@insert');
 Route::post('/proses/sosialisasi','SosialisasiController@validasi');
 Route::post('/proses/skhpn','SkhpnController@Svalidate');
 Route::post('/proses/tes_mandiri','urinMandiri@validasi');
+Route::get('/serv/1/berhasil','PengaduanController@sukses');
 Route::get('/serv/4/berhasil/{no_reg}','SkhpnController@sukses');
 Route::get('/serv/2/berhasil/{no_reg}','SosialisasiController@sukses');
 Route::get('/serv/5/berhasil/{no_reg}','urinMandiri@konfirm');

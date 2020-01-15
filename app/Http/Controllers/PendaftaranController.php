@@ -102,7 +102,8 @@ class PendaftaranController extends Controller
 
     public function pengaduan()
     {
-      return view('pengaduan');
+      $data= jobs::all();
+      return view('pengaduan',['job'=>$data]);
     }
 
     public function rehabilitasi()

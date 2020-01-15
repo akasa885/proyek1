@@ -15,7 +15,7 @@ class CreateSkhpnsTable extends Migration
     {
         Schema::create('skhpn', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode_registrasi',7)->unique();
+            $table->string('kode_registrasi',10)->unique();
             $table->string('nama_lengkap');
             $table->string('tanggal_lahir');
             $table->text('gender');

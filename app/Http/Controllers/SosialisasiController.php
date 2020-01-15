@@ -51,6 +51,9 @@ class SosialisasiController extends Controller
         }elseif ($x < 999) {
           $no_update = $x + 1;
           $no_regist = "SO".$no_update;
+        }elseif ($x < 9999) {
+          $no_update = $x + 1;
+          $no_regist = "SO".$no_update;
         }
       }
 

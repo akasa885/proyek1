@@ -18,7 +18,7 @@
 
 <br/>
  <!-- form validasi -->
-<form action="/proses/pengaduan" method="post">
+<form action="/proses/pengaduan" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
     <input id="identiti" type="hidden" name="identiti" value="pengaduan">
     <div class="form-group">
@@ -27,8 +27,8 @@
     </div>
     <div class="form-group">
       <label for="tgl_lahir">Tanggal Lahir</label>
-      <div class="input-group date" data-provide="datepicker">
-        <input type="text" placeholder="mm/dd/yyyy" name="tgl_lahir" class="form-control" value="{{ old('tgl_lahir') }}">
+      <div class="input-group date datepicker" data-provide="datepicker">
+        <input type="text" placeholder="dd-mm-yyyy" name="tgl_lahir" class="form-control" value="{{ old('tgl_lahir') }}">
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
         </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="form-group">
       <label for="email">Alamat Email</label>
-      <input class="form-control" type="email" name="alamat_email" value="{{ old('email') }}">
+      <input class="form-control" type="email" name="alamat_email" value="{{ old('alamat_email') }}">
     </div>
     <div class="form-group">
         <label for="lampiran">Lampiran Identitas</label>
@@ -53,15 +53,19 @@
             <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
           </div>
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile01"
+            <input name="file1" type="file" class="custom-file-input" id="inputGroupFile01"
               aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01">Pilih file</label>
+            <label class="custom-file-label" for="inputGroupFile01">Pilih file (.jpg .png .jpeg)</label>
           </div>
         </div>
     </div>
     <div class="form-group">
         <label for="pekerjaan">Pekerjaan</label>
-        <input class="form-control" type="text" name="pekerjaan" value="{{ old('pekerjaan') }}">
+        <select class="form-control" name="pekerjaan">
+          @foreach($job as $row)
+          <option value="{{ $row->nama_pekerjaan }}">{{ $row->nama_pekerjaan }}</option>
+          @endforeach
+        </select>
     </div>
     <div class="form-group">
         <label for="instansi">Instansi/Perusahaan</label>
@@ -78,16 +82,39 @@
     <hr />
     <div class="form-group">
       <label for="case_date">Tanggal Kejadian</label>
-      <div class="input-group date" data-provide="datepicker">
-        <input type="text" placeholder="mm/dd/yyyy" name="case_date" class="form-control" value="{{ old('case_date') }}">
+      <div class="input-group date datepicker" data-provide="datepicker">
+        <input type="text" placeholder="dd-mm-yyyy" name="case_date" class="form-control" value="{{ old('case_date') }}">
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="case_time">Waktu Kejadian</label>
-      <input class="form-control" type="text" name="case_time" value="{{old('case_time')}}">
+    <div class="form-row">
+      <div class="col-md-3">
+        <div class="position-relative form-group">
+          <label for="jam" class="">Waktu Kejadian</label>
+          <input type="number" class="form-control" min="1" max="24" onkeyup="hour_check(this)" name="case_hour" placeholder="jam" id="hour" value="{{old('case_hour')}}">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="position-relative form-group">
+          <label for="tanggal_lahir" class="">:</label>
+          <select class="form-control" name="case_minute">
+            <option value="00" selected>00</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-3">
+        <div class="position-relative form-group">
+          <label for="alert" class="">*</label>
+          <p style="color:red;">Masukkan waktu tepat acara dimulai.!</p>
+        </div>
+      </div>
     </div>
     <div class="form-group">
         <label for="lampiran-pendukung">Lampiran pendukung</label>
@@ -96,15 +123,15 @@
             <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
           </div>
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile02"
+            <input type="file2" class="custom-file-input" id="inputGroupFile02"
               aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile02">Pilih file pendukung pelaporan</label>
+            <label class="custom-file-label" for="inputGroupFile02">Pilih file pendukung pelaporan. (.jpg .png .jpeg)</label>
           </div>
         </div>
     </div>
     <div class="form-group">
       <div class="captcha">
-        <span>{!! captcha_img('inverse') !!}</span>
+        <span>{!! captcha_img('math') !!}</span>
         <button type="button" class="btn btn-success"><i class="fas fa-sync-alt" id="refresh"></i></button>
       </div>
     </div>

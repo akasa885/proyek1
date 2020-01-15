@@ -15,7 +15,7 @@ class CreateSosialisasisTable extends Migration
     {
         Schema::create('sosialisasi', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode_sos',5)->unique();
+            $table->string('kode_sos',10)->unique();
             $table->string('kode_pegawai')->nullable();
             $table->foreign('kode_pegawai')->references('kode_pegawai')->on('pegawai')->onDelete('cascade');
             $table->string('nama_pengada');
