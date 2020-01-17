@@ -19,7 +19,7 @@
           </ul>
       </div>
       <div class="form-group">
-        <textarea name="name" rows="10" cols="50" class="form-control" onkeyup="countChar(this)"></textarea>
+        <textarea id="petunjuk" name="name" rows="10" cols="50" class="form-control" onkeyup="countChar(this)"></textarea>
       </div>
       <div class="d-block text-center card-footer">
         <button id="hint-input-add" target="4" class="btn-wide btn btn-info" type="button" name="button">Simpan</button>

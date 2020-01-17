@@ -1,6 +1,6 @@
 @extends('admin/admin')
 
-@section('judul_header','Halaman Pengaturan Petunjuk Rehabilitasi')
+@section('judul_header','Halaman Pengaturan Petunjuk Tes Urine Mandiri')
 @section('sub_header','Ini adalah halaman petunjuk BNNK Sidoarjo')
 @section('icon_title')
 <i class="pe-7s-leaf icon-gradient bg-mean-fruit"></i>
@@ -22,7 +22,7 @@
         <textarea id="petunjuk" name="name" rows="10" cols="50" class="form-control" onkeyup="countChar(this)"></textarea>
       </div>
       <div class="d-block text-center card-footer">
-        <button id="hint-input-add" target="3" class="btn-wide btn btn-info" type="button" name="button">Simpan</button>
+        <button id="hint-input-add" target="5" class="btn-wide btn btn-info" type="button" name="button">Simpan</button>
       </div>
     </div>
   </div>

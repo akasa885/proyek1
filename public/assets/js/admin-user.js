@@ -787,22 +787,33 @@ $(document).ready(function() {
       });
 
       $('#hint-input-add').click(function () {
-        var target = $('#hint-input-add').attr('target');
-        var code = '';
+        var target = $(this).attr('target');
+        var hint = $('#petunjuk').val();
         alert(target);
-        if (target == '1') {
-          code = 'PEG';
-        }else if (target == '2') {
-          code = 'SOS';
-        }else if (target == '3') {
-          code = 'RHB';
-        }else if (target == '4') {
-          code = 'SKH';
-        }else if (target == '5') {
-          code = 'URM';
-        }
+        // if (target == '1') {
+        //   code = 'PEG';
+        // }else if (target == '2') {
+        //   code = 'SOS';
+        // }else if (target == '3') {
+        //   code = 'RHB';
+        // }else if (target == '4') {
+        //   code = 'SKH';
+        // }else if (target == '5') {
+        //   code = 'URM';
+        // }
         $.ajax({
-
+          url : '/dpanel/hint/save',
+          method : 'post',
+          cache : false,
+          data: {kode:target,desc:hint},
+          success: function (data) {
+            if (data == 'success') {
+              alert("Berh")
+            }
+          },
+          error: function (data) {
+            console.log(data);
+          }
         });
       });
 

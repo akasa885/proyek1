@@ -20,6 +20,7 @@ use App\pegawai;
 use App\sosialisasi;
 use App\permintaan;
 use App\mandiri;
+use App\hint;
 /**
  *
  */
@@ -97,6 +98,47 @@ class Admin_mainController extends Controller
         return view('admin/hint_skhpn',['username'=>session('user'),'integritas'=>session('integrity')]);
       }else{
         return redirect('/dpanel');
+      }
+    }
+
+    function hint_mandiri()
+    {
+      $cek = $this->sessionceklog('dash');
+      if ( $cek == 'checked') {
+        return view('admin/hint_mandiri',['username'=>session('user'),'integritas'=>session('integrity')]);
+      }else{
+        return redirect('/dpanel');
+      }
+    }
+
+    function hint_save(Request $req)
+    {
+      $kode = $req->kode;
+      $regist = '';
+      if ($kode == '1') {
+        $regist = 'PNE0x1';
+      }elseif ($kode == '2') {
+        $regist = 'SOS0x1';
+      }elseif ($kode == '3') {
+        $regist = 'RHB0x1';
+      }elseif ($kode == '4') {
+        $regist = 'SKP0x1';
+      }elseif ($kode == '5') {
+        $regist = 'MAN0x1';
+      }
+      $temp = hint::where('hint_code',$regist)->get();
+      if ($temp == null) {
+        hint::insert([
+          'hint_code' => $regist,
+          'paragraph_hint' => $req->desc,
+          'created_at' => date('Y-m-d H:i:s')
+        ]);
+      return 'success';
+      }else {
+      $get = hint::where('hint_code','=',$regist)->first();
+      $get->paragraph_hint = $req->desc;
+      $get->save();
+      return 'success';
       }
     }
 

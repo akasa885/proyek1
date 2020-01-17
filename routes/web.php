@@ -119,6 +119,8 @@ Route::get('/dpanel/hint/setting/1','Admin_mainController@hint_pengaduan');
 Route::get('/dpanel/hint/setting/2','Admin_mainController@hint_sosialisasi');
 Route::get('/dpanel/hint/setting/3','Admin_mainController@hint_rehab');
 Route::get('/dpanel/hint/setting/4','Admin_mainController@hint_skhpn');
+Route::get('/dpanel/hint/setting/5','Admin_mainController@hint_mandiri');
+Route::post('/dpanel/hint/save','Admin_mainController@hint_save');
 //hint
 
 //coba
