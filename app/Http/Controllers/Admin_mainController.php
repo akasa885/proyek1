@@ -126,7 +126,7 @@ class Admin_mainController extends Controller
       }elseif ($kode == '5') {
         $regist = 'MAN0x1';
       }
-      $temp = hint::where('hint_code',$regist)->get();
+      $temp = hint::where('hint_code',$regist)->first();
       if ($temp == null) {
         hint::insert([
           'hint_code' => $regist,

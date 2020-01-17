@@ -15,7 +15,7 @@ class CreateHintsTable extends Migration
     {
         Schema::create('hint', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('hint_code',5);
+            $table->string('hint_code',7);
             $table->longText('paragraph_hint',500)->charset('utf8')->nullable();
             $table->timestamps();
         });

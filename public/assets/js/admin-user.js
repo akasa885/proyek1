@@ -789,7 +789,6 @@ $(document).ready(function() {
       $('#hint-input-add').click(function () {
         var target = $(this).attr('target');
         var hint = $('#petunjuk').val();
-        alert(target);
         // if (target == '1') {
         //   code = 'PEG';
         // }else if (target == '2') {
@@ -801,6 +800,11 @@ $(document).ready(function() {
         // }else if (target == '5') {
         //   code = 'URM';
         // }
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
         $.ajax({
           url : '/dpanel/hint/save',
           method : 'post',
@@ -808,11 +812,13 @@ $(document).ready(function() {
           data: {kode:target,desc:hint},
           success: function (data) {
             if (data == 'success') {
-              alert("Berh")
+              alert("Berhasil");
+              location.reload();
             }
           },
           error: function (data) {
-            console.log(data);
+            alert('Terjadi Kesalahan!');
+            location.reload();
           }
         });
       });

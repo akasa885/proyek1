@@ -11,6 +11,7 @@ use App\rehab_tat;
 use App\rehab_publik;
 use App\permintaan;
 use App\mandiri;
+use App\hint;
 
 
 class PendaftaranController extends Controller
@@ -92,28 +93,33 @@ class PendaftaranController extends Controller
 
     public function mandiri()
     {
-      return view('tes-mandiri');
+      $data = hint::where('hint_code','=','MAN0x1')->get();
+      return view('tes-mandiri',['hint'=>$data]);
     }
 
     public function sosialisasi()
     {
-      return view('sosialisasi');
+      $data = hint::where('hint_code','=','SOS0x1')->get();
+      return view('sosialisasi',['hint'=>$data]);
     }
 
     public function pengaduan()
     {
-      $data= jobs::all();
-      return view('pengaduan',['job'=>$data]);
+      $data_hint = hint::where('hint_code','=','PNE0x1')->get();
+      $data = jobs::all();
+      return view('pengaduan',['job'=>$data,'hint'=>$data_hint]);
     }
 
     public function rehabilitasi()
     {
-      return view('rehabilitasi',['form' => "default"]);
+      $data = hint::where('hint_code','=','RHB0x1')->get();
+      return view('rehabilitasi',['form' => "default",'hint'=>$data]);
     }
 
     public function skhpn()
     {
+      $data_hint = hint::where('hint_code','=','SKP0x1')->get();
       $data= jobs::all();
-      return view('skhpn',['job'=>$data]);
+      return view('skhpn',['job'=>$data,'hint'=>$data_hint]);
     }
 }

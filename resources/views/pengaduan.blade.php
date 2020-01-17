@@ -150,5 +150,9 @@
 <center>
   <img src="/assets/images/logo-bnn-terbaru.png" alt="logo" height="150px" width="150px">
 </center>
-<p>Ini adalah bagian pengisian pemberitahuan khusus yang auhsdiasd ias uaihsdi aiu uiashdiah</p>
+@foreach($hint as $row)
+<div style="white-space: pre-wrap">
+{{$row->paragraph_hint}}
+</div>
+@endforeach
 @endsection

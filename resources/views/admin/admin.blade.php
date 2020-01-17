@@ -487,6 +487,12 @@
                                             </i>SKHPN
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="/dpanel/hint/setting/5">
+                                            <i class="metismenu-icon">
+                                            </i>Mandiri
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             @endif
