@@ -55,7 +55,7 @@ class urinMandiri extends Controller
         $no_regist = "TUM".$no_update;
       }
     }
-
+    // $fileName = 'blaas';
     $image = $req->file('lampiran');
     $fileName = $no_regist.'.'.$image->extension();
     $path_dir = '/uploads/lampiran/tes mandiri'.'/'.$no_regist;
@@ -70,7 +70,7 @@ class urinMandiri extends Controller
       unlink($path_file);
     }
     $image->move(public_path('uploads').$path, $fileName);
-
+     // echo $fileName." / ".$path_dir."  /  ".$full_path."  /  ".$path_file;
     mandiri::insert([
       'kode_registrasi' => $no_regist,
       'nama_pengada' => $req->nama_pengada,

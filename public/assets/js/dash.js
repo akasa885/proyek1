@@ -13,3 +13,6 @@ $(document).on('click','#service-4',function () {
 $(document).on('click','#service-5',function () {
   window.location.assign('/bnn/serv/5');
 });
+$(document).on('click','#info-1',function () {
+  window.location.assign('https://bit.ly/2ZHzIJL');
+})
