@@ -459,10 +459,33 @@ $(document).ready(function() {
           dataType:'text',
           success: function (data) {
               $('#view_result').html(data);
+          },
+          error: function (data) {
+            // console.log(data);
           }
 
         });
       }else {
+        $('#view_result').html('');
+        $('#view_result').html(txt_html);
+      }
+    }else if (cari_no == 'Daftar Pengaduan') {
+      if (txt != '') {
+        var tampil = 'adu';
+        $.ajax({
+          url: '/dpanel/serv/pengaduan/report/reg_src',
+          method: 'post',
+          data:{search:txt, view:tampil},
+          dataType:'text',
+          success: function (data) {
+              $('#view_result').html(data);
+          },
+          error: function (data) {
+            console.log(data);
+          }
+
+        });
+      }else{
         $('#view_result').html('');
         $('#view_result').html(txt_html);
       }
@@ -487,7 +510,7 @@ $(document).ready(function() {
       if (txt != '') {
         var tampil = 'mandiri';
         $.ajax({
-          url: '/dpanel/serv/sosialisasi/report/reg_src',
+          url: '/dpanel/serv/mandiri/report/reg_src',
           method: 'post',
           data:{search:txt, view:tampil},
           dataType:'text',
@@ -630,7 +653,37 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         });
-        if (target == '2'){
+        if (target == '1'){
+          $.ajax({
+            url: '/dpanel/pengaduan/search',
+            method: 'post',
+            cache: false,
+            type: 'json',
+            data: {tgl_start:start,tgl_last:last},
+            success: function (data) {
+              if (data.hasil) {
+                $('#view_result').html('');
+                jQuery.each(data.hasil, function(key, value){
+                                result += '<tr>';
+                                result += '<td>'+value.kode_registrasi+'</td>';
+                                result += '<td>'+value.fullName+'</td>';
+                                result += '<td>'+value.birth_date+'</td>';
+                                result += '<td>'+value.no_hp+'</td>';
+                                result += '<td>'+value.nama_instansi+'</td>';
+                                result += '<td>'+value.instansi_no+'</td>';
+                                result += '<td>'+value.created_at+'</td>';
+                                result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
+                                result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_registrasi+'">';
+                                result += '<button type="button" tabindex="0" class="dropdown-item" id="view_adu" onclick="lihat_adu('+'\''+value.kode_registrasi+'\''+')">Edit</button>';
+                                result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'+value.id+'" value="5">Delete</button></div>';
+                                no ++;
+                              });
+              }
+              jQuery('#view_result').append(result);
+            }
+          });
+
+        }else if (target == '2'){
           $.ajax({
             url: '/dpanel/sosialisasi/search',
             method: 'post',
@@ -762,7 +815,7 @@ $(document).ready(function() {
                                 result += '<td>'+value.created_at+'</td>';
                                 result += '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>';
                                 result += '<div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'+value.kode_registrasi+'">';
-                                result += '<button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('+'\''+value.kode_registrasi+'\''+')">Edit</button>';
+                                result += '<button type="button" tabindex="0" class="dropdown-item" id="view_andiri" onclick="lihat_mandiri('+'\''+value.kode_registrasi+'\''+')">Edit</button>';
                                 result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'+value.id+'" value="10">Delete</button></div>';
                                 no ++;
                               });
@@ -994,6 +1047,19 @@ function lihat_mandiri(reg) {
     method: 'get',
     cache: false,
     data: {kode:kode},
+    success: function (data) {
+      $('#InputModal').modal('show');
+      $('#view_data_response').html(data);
+    }
+  });
+}
+
+function lihat_adu(reg) {
+  $.ajax({
+    url: '/dpanel/pengaduan/data',
+    method: 'get',
+    cache: false,
+    data: {kode:reg},
     success: function (data) {
       $('#InputModal').modal('show');
       $('#view_data_response').html(data);

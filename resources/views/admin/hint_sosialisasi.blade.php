@@ -19,7 +19,9 @@
           </ul>
       </div>
       <div class="form-group">
-        <textarea id="petunjuk" name="name" rows="10" cols="50" class="form-control" onkeyup="countChar(this)"></textarea>
+        @foreach($hint as $row)
+        <textarea id="petunjuk" name="name" rows="10" cols="50" class="form-control" onkeyup="countChar(this)">{{$row->paragraph_hint}}</textarea>
+        @endforeach
       </div>
       <div class="d-block text-center card-footer">
         <button id="hint-input-add" target="2" class="btn-wide btn btn-info" type="button" name="button">Simpan</button>

@@ -50,8 +50,8 @@ function amoun_check(val) {
   if (len > 3) {
     val.value = val.value.substring(0, 3);
   }
-  if (amoun > 0 && amoun < 5) {
-    val.value = '5';
+  if (amoun > 0 && amoun < 2) {
+    val.value = '1';
   }
 }
 // window.setInterval(function(){

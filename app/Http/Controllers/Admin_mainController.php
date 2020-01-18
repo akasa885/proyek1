@@ -18,6 +18,7 @@ use App\skhpn;
 use App\klinikrehab;
 use App\pegawai;
 use App\sosialisasi;
+use App\pengaduan;
 use App\permintaan;
 use App\mandiri;
 use App\hint;
@@ -65,7 +66,8 @@ class Admin_mainController extends Controller
     {
       $cek = $this->sessionceklog('dash');
       if ( $cek == 'checked') {
-        return view('admin/hint_pengaduan',['username'=>session('user'),'integritas'=>session('integrity')]);
+        $data = hint::where('hint_code','=','PNE0x1')->get();
+        return view('admin/hint_pengaduan',['username'=>session('user'),'integritas'=>session('integrity'),'hint'=>$data]);
       }else{
         return redirect('/dpanel');
       }
@@ -75,7 +77,8 @@ class Admin_mainController extends Controller
     {
       $cek = $this->sessionceklog('dash');
       if ( $cek == 'checked') {
-        return view('admin/hint_sosialisasi',['username'=>session('user'),'integritas'=>session('integrity')]);
+        $data = hint::where('hint_code','=','SOS0x1')->get();
+        return view('admin/hint_sosialisasi',['username'=>session('user'),'integritas'=>session('integrity'),'hint'=>$data]);
       }else{
         return redirect('/dpanel');
       }
@@ -85,7 +88,8 @@ class Admin_mainController extends Controller
     {
       $cek = $this->sessionceklog('dash');
       if ( $cek == 'checked') {
-        return view('admin/hint_rehab',['username'=>session('user'),'integritas'=>session('integrity')]);
+        $data = hint::where('hint_code','=','RHB0x1')->get();
+        return view('admin/hint_rehab',['username'=>session('user'),'integritas'=>session('integrity'),'hint'=>$data]);
       }else{
         return redirect('/dpanel');
       }
@@ -95,7 +99,8 @@ class Admin_mainController extends Controller
     {
       $cek = $this->sessionceklog('dash');
       if ( $cek == 'checked') {
-        return view('admin/hint_skhpn',['username'=>session('user'),'integritas'=>session('integrity')]);
+        $data = hint::where('hint_code','=','SKP0x1')->get();
+        return view('admin/hint_skhpn',['username'=>session('user'),'integritas'=>session('integrity'),'hint'=>$data]);
       }else{
         return redirect('/dpanel');
       }
@@ -105,7 +110,8 @@ class Admin_mainController extends Controller
     {
       $cek = $this->sessionceklog('dash');
       if ( $cek == 'checked') {
-        return view('admin/hint_mandiri',['username'=>session('user'),'integritas'=>session('integrity')]);
+        $data = hint::where('hint_code','=','MAN0x1')->get();
+        return view('admin/hint_mandiri',['username'=>session('user'),'integritas'=>session('integrity'),'hint'=>$data]);
       }else{
         return redirect('/dpanel');
       }
@@ -168,6 +174,69 @@ class Admin_mainController extends Controller
         }else{
           $output = 'account finded';
         }
+      }
+      return $output;
+    }
+
+    function aduList()
+    {
+      $cek = $this->sessionceklog('dash');
+      if ( $cek == 'checked') {
+        $wt = date('Y-m-d');
+        $data_adu = pengaduan::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
+        $time = date('d-m-Y');
+        return view('/admin/admin-pengaduan',['date' =>$time,'adu' => $data_adu,'username'=>session('user'),'integritas'=>session('integrity')]);
+      }else{
+        return redirect('/dpanel');
+      }
+    }
+
+    function aduSearch(Request $req)
+    {
+      $start = explode('-',$req->tgl_start);
+      $start = $start[2].'-'.$start[1].'-'.$start[0];
+      $last = explode('-',$req->tgl_last);
+      $last = $last[2].'-'.$last[1].'-'.$last[0];
+      $data = pengaduan::whereBetween(DB::raw('substr(created_at,1,10)'),[$start,$last])->get();
+      return response()->json(['hasil'=>$data]);
+    }
+
+    function aduData(Request $req)
+    {
+      $kode = $req->kode;
+      $output = '';
+      $sour = pengaduan::where('kode_registrasi',$kode)->get();
+      foreach ($sour as $row) {
+        $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
+        <p>Nama Lengkap
+        <input type="text" name="nama_lengkap" class="form-control" readonly="true" value="'.$row->fullName.'"></p>
+        <p>Tanggal Lahir
+        <input type="text" name="tgl_lahir" class="form-control" readonly="true" value="'.$row->birth_date.'"></p>
+        <p>Email
+        <input type="email" name="email" class="form-control" placeholder="email" value="'.$row->email.'"></p>
+        <p>No HP
+        <input type="text" name="no_hp" class="form-control" value="'.$row->no_hp.'"></p>
+        <p>Alamat
+        <input type="text" name="address_place" class="form-control" readonly="true" value="'.$row->alamat.'"></p>
+        <p>Nama Instansi
+        <input type="text" name="instansiName" class="form-control" value="'.$row->nama_instansi.'"></p>
+        <p>Alamat Instansi
+        <input type="text" name="address_instance" class="form-control" readonly="true" value="'.$row->instansi_location.'"></p>
+        <p>No Instansi
+        <input type="text" name="no_hp" class="form-control" value="'.$row->instansi_no.'"></p>
+        <p>Waktu Kejadian
+        <input type="text" name="case_date" class="form-control" readonly="true" value="'.$row->kejadian_date.'"></p>
+        <!--<p>Keterangan
+        <input type="text" name="urai_singkat" class="form-control" value="'.$row->uraian_singkat.'"></p>-->
+        <div class="form-row">
+          <div class="col-md-4 easyzoom easyzoom--overlay">
+            <img src="'.$row->identitas_location.'" width="100" class="img-fluid" border="2" alt="">
+          </div>
+          <div class="col-md-6">
+            <label for="textUpload" class="">Lampiran Undangan</label>
+            <a href="'.$row->identitas_location.'" target="_blank" class="btn btn-info">Lihat Gambar</a>
+          </div>
+        </div>';
       }
       return $output;
     }
@@ -365,8 +434,6 @@ class Admin_mainController extends Controller
         $data_asessor = pegawai::where('bagian','=','asessor')->paginate(5) ;
         $data_sosialisasi = pegawai::where('bagian','=','sosialisasi')->paginate(5) ;
         $data_pegawai = pegawai::paginate(5) ;
-        // $data_tat = rehab_tat::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
-        // $data_publik = rehab_publik::where(DB::raw('substr(created_at,1,10)'),'=',$wt)->paginate(5);
         $time = date('d-m-Y');
         if(!empty($_REQUEST['pilihan']))
         {
@@ -589,25 +656,26 @@ class Admin_mainController extends Controller
       foreach ($sour as $row) {
         $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_registrasi.'">
         <p>Type Tes Urine Mandiri
-        <input type="text" name"type_tes" class="form-control" readonly="true" value="'.$row->tes_type.'"></p>
+        <input type="text" name="type_tes" class="form-control" readonly="true" value="'.$row->tes_type.'"></p>
         <p>Nama Pembicara
-        <input type="text" name"pegawai" class="form-control" readonly="true" value="'.$row->nama.'"></p>
+        <input type="text" name="pegawai" class="form-control" readonly="true" value="'.$row->nama.'"></p>
         <p>Nama Penyelenggara
-        <input type="text" name"nama_duty" class="form-control" placeholder="Nama Penyelenggara" value="'.$row->nama_pengada.'"></p>
+        <input type="text" name="nama_duty" class="form-control" placeholder="Nama Penyelenggara" value="'.$row->nama_pengada.'"></p>
         <p>Tanggal Penyelenggaraan
-        <input type="text" name"tgl_pengada" class="form-control" readonly="true" value="'.$row->tgl_pengada.'"></p>
+        <input type="text" name="tgl_pengada" class="form-control" readonly="true" value="'.$row->tgl_pengada.'"></p>
         <p>Waktu
-        <input type="text" name"waktuAcara" class="form-control" readonly="true" value="'.$row->waktu.'"></p>
+        <input type="text" name="waktuAcara" class="form-control" readonly="true" value="'.$row->waktu.'"></p>
         <p>Lokasi Tempat
-        <input type="text" name"address_place" class="form-control" readonly="true" value="'.$row->lokasi_tempat.'"></p>
+        <input type="text" name="address_place" class="form-control" readonly="true" value="'.$row->lokasi_tempat.'"></p>
         <p>Jumlah peserta
-        <input type="text" name"jmlhPeserta" class="form-control" readonly="true" value="'.$row->jmlh_peserta.'"></p>
+        <input type="text" name="jmlhPeserta" class="form-control" readonly="true" value="'.$row->jmlh_peserta.'"></p>
         <div class="form-row">
           <div class="col-md-4 easyzoom easyzoom--overlay">
             <img src="'.$row->lampiran_loc.'" width="100" class="img-fluid" border="2" alt="">
           </div>
           <div class="col-md-6">
             <label for="textUpload" class="">Lampiran Undangan</label>
+            <a href="'.$row->lampiran_loc.'" target="_blank" class="btn btn-info">Lihat Gambar</a>
           </div>
         </div>';
       }
@@ -690,25 +758,26 @@ class Admin_mainController extends Controller
       foreach ($sour as $row) {
         $output .= '<input type="hidden" name="identity" id="identity_code" value="'.$row->kode_sos.'">
         <p>Type Sosialisasi
-        <input type="text" name"type_sosialisasi" class="form-control" readonly="true" value="'.$row->sosialisasi_type.'"></p>
+        <input type="text" name="type_sosialisasi" class="form-control" readonly="true" value="'.$row->sosialisasi_type.'"></p>
         <p>Nama Pembicara
-        <input type="text" name"pegawai" class="form-control" readonly="true" value="'.$row->nama.'"></p>
+        <input type="text" name="pegawai" class="form-control" readonly="true" value="'.$row->nama.'"></p>
         <p>Nama Penyelenggara
-        <input type="text" name"nama_duty" class="form-control" placeholder="Nama Penyelenggara" value="'.$row->nama_pengada.'"></p>
+        <input type="text" name="nama_duty" class="form-control" placeholder="Nama Penyelenggara" value="'.$row->nama_pengada.'"></p>
         <p>Tanggal Penyelenggaraan
-        <input type="text" name"tgl_pengada" class="form-control" readonly="true" value="'.$row->tgl_pengada.'"></p>
+        <input type="text" name="tgl_pengada" class="form-control" readonly="true" value="'.$row->tgl_pengada.'"></p>
         <p>Waktu
-        <input type="text" name"waktuAcara" class="form-control" readonly="true" value="'.$row->waktu.'"></p>
+        <input type="text" name="waktuAcara" class="form-control" readonly="true" value="'.$row->waktu.'"></p>
         <p>Lokasi Tempat
-        <input type="text" name"address_place" class="form-control" readonly="true" value="'.$row->lokasi_tempat.'"></p>
+        <input type="text" name="address_place" class="form-control" readonly="true" value="'.$row->lokasi_tempat.'"></p>
         <p>Jumlah peserta
-        <input type="text" name"jmlhPeserta" class="form-control" readonly="true" value="'.$row->jmlh_peserta.'"></p>
+        <input type="text" name="jmlhPeserta" class="form-control" readonly="true" value="'.$row->jmlh_peserta.'"></p>
         <div class="form-row">
           <div class="col-md-4 easyzoom easyzoom--overlay">
             <img src="'.$row->lampiran_loc.'" width="100" class="img-fluid" border="2" alt="">
           </div>
           <div class="col-md-6">
             <label for="textUpload" class="">Lampiran Undangan</label>
+            <a href="'.$row->lampiran_loc.'" target="_blank" class="btn btn-info">Lihat Gambar</a>
           </div>
         </div>';
       }
@@ -1028,7 +1097,7 @@ class Admin_mainController extends Controller
             <td>'.$row->created_at.'</td>';
           $output .= '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'.$row->kode_sos.'">
-            <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('.$row->kode_sos.')">Edit</button>
+            <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('.'\''.$row->kode_sosi.'\''.')">Edit</button>
             <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="7">Delete</button></div>' ;
         }
         echo $output;
@@ -1046,8 +1115,25 @@ class Admin_mainController extends Controller
             <td>'.$row->created_at.'</td>';
           $output .= '<td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'.$row->kode_registrasi.'">
-            <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_sosio('.$row->kode_registrasi.')">Edit</button>
+            <button type="button" tabindex="0" class="dropdown-item" id="view_skhpn" onclick="lihat_mandiri('.'\''.$row->kode_registrasi.'\''.')">Edit</button>
             <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="10">Delete</button></div>' ;
+      }
+      echo $output;
+    }elseif ($req->view == 'adu') {
+      $sour = pengaduan::where('kode_registrasi','like','%'.$cari.'%')->get();
+      foreach ($sour as $row) {
+        $output .= '<tr>
+        <td>'.$row->kode_registrasi.'</td>
+        <td>'.$row->fullName.'</td>
+        <td>'.$row->birth_date.'</td>
+        <td>'.$row->no_hp.'</td>
+        <td>'.$row->nama_instansi.'</td>
+        <td>'.$row->instansi_no.'</td>
+        <td>'.$row->created_at.'</td>
+        <td><button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button>
+        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><input type="hidden" name="kode" id="'.$row->kode_registrasi.'">
+        <button type="button" tabindex="0" class="dropdown-item" id="view_adu" onclick="lihat_adu('.'\''.$row->kode_registrasi.'\''.')">Edit</button>
+        <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'.$row->id.'" value="5">Delete</button></div>';
       }
       echo $output;
     }

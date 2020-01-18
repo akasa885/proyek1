@@ -75,7 +75,7 @@
                                   <div class="widget-heading">
                                       {{$username}}
                                   </div>
-                                  <div class="widget-subheading">
+                                  <div id="access" class="widget-subheading">
                                       {{$integritas}}
                                   </div>
                               </div>
@@ -498,7 +498,7 @@
                             @endif
                             <li class="app-sidebar__heading">Pengaduan Masyarakat</li>
                             <li>
-                                <a href="#">
+                                <a href="{{route('aduan.list')}}">
                                     <i class="metismenu-icon pe-7s-mail"></i>
                                     Report
                                 </a>
@@ -511,7 +511,8 @@
                                     Permintaan
                                 </a>
                             </li>
-                            @elseif($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'skhpn')
+                            @endif
+                            @if($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'skhpn')
                             <li class="app-sidebar__heading">Tes Urine</li>
                             <li>
                                 <a href="/dpanel/serv/skhpn/report">
@@ -523,7 +524,8 @@
                                     Mandiri
                                 </a>
                             </li>
-                            @elseif($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'rehab')
+                            @endif
+                            @if($integritas == 'admin' || $integritas == 'Super Admin' || $integritas == 'rehab')
                             <li class="app-sidebar__heading">Rehabilitasi</li>
                             <li>
                                 <a href="/dpanel/serv/rehab/report">
