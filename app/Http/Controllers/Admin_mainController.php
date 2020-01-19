@@ -716,7 +716,7 @@ class Admin_mainController extends Controller
       $cek = $this->sessionceklog('dash');
       if ( $cek == 'checked') {
         $wt = date('Y-m-d');
-        $data_sos = sosialisasi::join('pegawai','pegawai.kode_pegawai','sosialisasi.kode_pegawai')
+        $data_sos = sosialisasi::leftJoin('pegawai','pegawai.kode_pegawai','sosialisasi.kode_pegawai')
         ->select('sosialisasi.*','pegawai.nama')->where(DB::raw('substr(sosialisasi.created_at,1,10)'),'=',$wt)->paginate(5);
         $time = date('d-m-Y');
         return view('/admin/admin-sosialisasi',['date' =>$time,'sosio' => $data_sos,'username'=>session('user'),'integritas'=>session('integrity')]);

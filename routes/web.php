@@ -104,7 +104,9 @@ Route::get('/dpanel/delete/agama','Admin_mainController@agamadel');
 Route::get('/dpanel/delete/suku','Admin_mainController@sukudel');
 Route::get('/dpanel/delete/user','Admin_mainController@userdel');
 Route::get('/dpanel/delete/pegawai','Admin_mainController@delPegawai');
+Route::get('/dpanel/delete/pengaduan','Admin_mainController@aduDel');
 Route::get('/dpanel/delete/sosialisasi','Admin_mainController@sosDel');
+Route::get('/dpanel/delete/skhpn','Admin_mainController@skhpnDel');
 Route::get('/dpanel/delete/mandiri','Admin_mainController@manDel');
 
 //update

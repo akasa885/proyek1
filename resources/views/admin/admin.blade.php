@@ -75,7 +75,7 @@
                                   <div class="widget-heading">
                                       {{$username}}
                                   </div>
-                                  <div id="access" class="widget-subheading">
+                                  <div id="access" class="widget-subheading" role="{{$integritas}}" >
                                       {{$integritas}}
                                   </div>
                               </div>

@@ -20,217 +20,157 @@ $(document).ready(function() {
     name_del = $(this).attr("name");
   });
 
-  $('body').on('click','#user-in-delete',function () {
-    var cde = $('#del_button_user button' ).val();
-    var mol = name_del.length % 2;
-    if( mol == 1){
-        var lastChar = name_del.substr(name_del.length - 1); // => "1"
-    }else if ( mol == 0) {
-      var lastChar = name_del.substr(name_del.length - 2); // => "1"
-    }
-    if (cde == '1') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/agama",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    } else if (cde == '2') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/job",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    } else if (cde == '3') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/narkoba",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    }else if (cde == '4') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/suku",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    }else if (cde == '7') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/sosialisasi",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    }else if (cde == '8') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/pegawai",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    }else if (cde == '9') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/user",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    }else if (cde == '10') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/mandiri",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
-          }
-        }
-      });
-    }
-  });
-
   $('#user-in-delete').on('click', function () {
+    var access = $('#access').attr('role');
+    var selectedview = $('#pilihan_tampil').children("option:selected").val();
     var cde = $('#del_button_user button' ).val();
-    var mol = name_del.length % 2;
+    var mol = name_del.length % 2; //button123
     if( mol == 1){
-        var lastChar = name_del.substr(name_del.length - 1); // => "1"
+      var lastChar = name_del.substr(name_del.length - 5);
+      var change = parseInt(lastChar);
+      if (isNaN(change)) {
+        var lastChar = name_del.substr(name_del.length - 3);
+        var change = parseInt(lastChar);
+        if(isNaN(change)){
+    	     var lastChar = name_del.substr(name_del.length - 1); // => "1"
+         }
+      }
     }else if ( mol == 0) {
-      var lastChar = name_del.substr(name_del.length - 2); // => "1"
+      var lastChar = name_del.substr(name_del.length - 6); // => "1"
+      var change = parseInt(lastChar);
+      if (isNaN(change)) {
+        var lastChar = name_del.substr(name_del.length - 4); // => "1"
+        var change = parseInt(lastChar);
+        if (isNaN(change)) {
+          var lastChar = name_del.substr(name_del.length - 2); // => "1"
+        }
+      }
     }
-    if (cde == '1') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/agama",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+    if (access == 'Super Admin' || access == 'admin') {
+      if (cde == '1') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/agama",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    } else if (cde == '2') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/job",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      } else if (cde == '2') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/job",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    } else if (cde == '3') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/narkoba",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      } else if (cde == '3') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/narkoba",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    }else if (cde == '4') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/suku",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      }else if (cde == '4') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/suku",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    }else if (cde == '7') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/sosialisasi",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      }else if (cde == '5') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/pengaduan",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    }else if (cde == '8') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/pegawai",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      }else if (cde == '6') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/skhpn",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    }else if (cde == '9') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/user",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      }else if (cde == '7') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/sosialisasi",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
-    }else if (cde == '10') {
-      $.ajax({
-        type: "get",
-        url: "/dpanel/delete/mandiri",
-        data: {id : lastChar},
-        cache: false,
-        success: function (data) {
-          if(data == 'deleted'){
-            location.reload();
+        });
+      }else if (cde == '8') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/pegawai",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
           }
-        }
-      });
+        });
+      }else if (cde == '9') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/user",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
+          }
+        });
+      }else if (cde == '10') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/mandiri",
+          data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
+          }
+        });
+      }
+    }else {
+      $('#DeleteModal').modal('hide');
+      alert('Anda tidak memiliki akses! \n Tindakkan dibatalkan');
     }
   });
   //deleted code js
@@ -733,7 +673,8 @@ $(document).ready(function() {
                     result += '<td>'+value.nama_tersangka+'</td>';
                     result += '<td>'+value.created_at+'</td>';
                     result += '<td>';
-                    result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button><button type="button" tabindex="0" class="dropdown-item">Delete</button></div>';
+                    result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
+                    result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="11">Delete</button></div>';
                     result += '</td>';
                     no++;
                   });
@@ -747,7 +688,8 @@ $(document).ready(function() {
                     result += '<td>'+value.nama_lengkap+'</td>';
                     result += '<td>'+value.created_at+'</td>';
                     result += '<td>';
-                    result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button><button type="button" tabindex="0" class="dropdown-item">Delete</button></div>';
+                    result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
+                    result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="11">Delete</button></div>';
                     result += '</td>';
                     no++;
                   });
@@ -787,7 +729,7 @@ $(document).ready(function() {
                                 }else if (value.status == '2') {
                                   result += '<button type="button" id="print_pdf_skhpn" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
                                 }
-                                result += '  <button type="button" tabindex="0" class="dropdown-item">Delete</button>';
+                                result += '  <div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="6">Delete</button></div>';
                                 no ++;
                               });
               }
@@ -985,6 +927,7 @@ function lihat_sosio(reg) {
 }
 
 function edit_pegawai(reg) {
+  $('#view_data_response').html('');
   $.ajax({
     url: '/dpanel/pegawai/data',
     method: 'get',
@@ -992,7 +935,7 @@ function edit_pegawai(reg) {
     data: {kode:reg},
     success: function (data) {
       $('#EditModal').modal('show');
-      $('#view_data_response').append(data);
+      $('#view_data_response').html(data);
     }
   });
 }
@@ -1004,7 +947,7 @@ function medical_check(reg) {
 function print_pdf(reg) {
   var sector = reg.substr(0,3);
   if (sector == 'REG') {
-    location.href = "/dpanel/rehab/report/pdf/skhpn/"+reg;
+    location.href = "/dpanel/report/pdf/skhpn/"+reg;
   }else if (sector == 'TAT') {
     location.href = "/dpanel/rehab/report/pdf/tat/"+reg;
   }else if (sector == 'PBL') {
@@ -1042,6 +985,7 @@ var selectedview = $('#pilihan_tampil').children("option:selected").val();
 
 function lihat_mandiri(reg) {
   var kode = reg;
+  $('#view_data_response').html('');
   $.ajax({
     url: '/dpanel/mandiri/data',
     method: 'get',
@@ -1055,6 +999,7 @@ function lihat_mandiri(reg) {
 }
 
 function lihat_adu(reg) {
+  $('#view_data_response').html('');
   $.ajax({
     url: '/dpanel/pengaduan/data',
     method: 'get',
@@ -1069,6 +1014,7 @@ function lihat_adu(reg) {
 
 function lihat_skhpn(reg) {
   var kode = reg;
+  $('#view_data_response').html('');
   $.ajax({
     url: '/skhpn/data/list',
     method: 'get',
