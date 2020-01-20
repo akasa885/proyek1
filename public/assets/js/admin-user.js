@@ -201,6 +201,9 @@ $(document).ready(function() {
   $('#form_edit_pegawai').submit(function(e) {
       e.preventDefault();
   });
+  $('#form_edit_skhpn').submit(function(e) {
+      e.preventDefault();
+  });
 
   $('#user_create_button').click(function () {
     var $form = $('#form_create');
@@ -551,8 +554,15 @@ $(document).ready(function() {
       });
 
       $('#skhpn_update_button').on('click',function () {
-        var $form = $('#form_edit');
+        var $form = $('#form_edit_skhpn');
+        alert("simpan");
         data = $form.serialize();
+        // data = new FormData(this);
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
         $.ajax({
           type: 'get',
           url: '/skhpn/update/store',
@@ -1023,7 +1033,7 @@ function lihat_skhpn(reg) {
     success: function (data) {
       $('#InputModal').modal('show');
       $('#view_data_response').html(data);
-      // alert(data);
+      $('#med').html('<a href="/dpanel/skhpn/klinik/'+reg+'" class="btn btn-success">Medical Check</a>');
     }
   });
 
