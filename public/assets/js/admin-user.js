@@ -22,7 +22,7 @@ $(document).ready(function() {
 
   $('#user-in-delete').on('click', function () {
     var access = $('#access').attr('role');
-    var selectedview = $('#pilihan_tampil').children("option:selected").val();
+    var rehabView = $('#pilihan_tampil').children("option:selected").val();
     var cde = $('#del_button_user button' ).val();
     var mol = name_del.length % 2; //button123
     if( mol == 1){
@@ -160,6 +160,18 @@ $(document).ready(function() {
           type: "get",
           url: "/dpanel/delete/mandiri",
           data: {id : lastChar},
+          cache: false,
+          success: function (data) {
+            if(data == 'deleted'){
+              location.reload();
+            }
+          }
+        });
+      }else if (cde == '11') {
+        $.ajax({
+          type: "get",
+          url: "/dpanel/delete/rehab",
+          data: {id : lastChar,view:rehabView},
           cache: false,
           success: function (data) {
             if(data == 'deleted'){
@@ -684,7 +696,7 @@ $(document).ready(function() {
                     result += '<td>'+value.created_at+'</td>';
                     result += '<td>';
                     result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
-                    result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="11">Delete</button></div>';
+                    result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'+value.id+'" value="11">Delete</button></div>';
                     result += '</td>';
                     no++;
                   });
@@ -699,11 +711,12 @@ $(document).ready(function() {
                     result += '<td>'+value.created_at+'</td>';
                     result += '<td>';
                     result += '<button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-outline-info">Action</button><div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu"><button type="button" tabindex="0" class="dropdown-item" id="view_rehab" onclick="lihat_rehab('+'\''+value.kode_registrasi+'\''+')">Edit</button><button type="button" id="print_pdf_rehab" tabindex="0" class="dropdown-item" onclick="print_pdf('+'\''+value.kode_registrasi+'\''+')">Print</button>';
-                    result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button{{ $row->id }}" value="11">Delete</button></div>';
+                    result += '<div id="del_button_user"><button type="button" tabindex="0" class="dropdown-item" name="button'+value.id+'" value="11">Delete</button></div>';
                     result += '</td>';
                     no++;
                   });
                 }
+                jQuery('#view_result').append(result);
               }
             }
           });
