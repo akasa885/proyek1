@@ -976,7 +976,6 @@ function print_pdf(reg) {
   }else if (sector == 'PBL') {
     location.href = "/dpanel/rehab/report/pdf/pbl/"+reg;
   }
-  alert(sector);
 }
 
 function lihat_rehab(reg) {
@@ -1038,6 +1037,7 @@ function lihat_adu(reg) {
 function lihat_skhpn(reg) {
   var kode = reg;
   $('#view_data_response').html('');
+  $('#med').html('');
   $.ajax({
     url: '/skhpn/data/list',
     method: 'get',
@@ -1046,7 +1046,7 @@ function lihat_skhpn(reg) {
     success: function (data) {
       $('#InputModal').modal('show');
       $('#view_data_response').html(data);
-      $('#med').html('<a href="/dpanel/skhpn/klinik/'+reg+'" class="btn btn-success">Medical Check</a>');
+      $('#med').html('<a href="/dpanel/skhpn/klinik/'+kode+'" class="btn btn-success">Medical Check</a>');
     }
   });
 
